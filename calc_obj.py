@@ -15,3 +15,11 @@ def calc_mine_yield(mine_list):
 
 
     return(np.array(all_yields))
+    
+# calculate biomass of mining area
+def calc_mine_biomass(mine_list):
+
+    biomass_sum = []
+
+    for mine in mine_list:
+        # mines are unlikely to only have one initial land cover -> how to handle this in a table?
