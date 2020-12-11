@@ -15,8 +15,8 @@ Then the table would look like this:
 Taking into account that our calculation of mining yield needs some flexibility to change it later on, an approach could also look like this:
 |id  |mining  |resource  |biomass |area |geometry |
 |---|---|---|---|---|---|
-|1   |false   |gold   |500   |1000 | <geometry> |
-|2   |false   |diamonds   |1200   |2000 | <geometry> |
+|1   |false   |gold   |500   |1000 | geometry... |
+|2   |false   |diamonds   |1200   |2000 | geometry... |
 
 
 An idea to include the ecological impact (i.e. distance to water / protected area) could be to weight the yield and / or biomass values with the distances, e.g.:
@@ -52,12 +52,14 @@ In the end we want to have a summed biomass for each mining block, no matter whi
 The landuse raster
 
 |1 |1 |2 |
+|:-:|:-:|:-:|
 |1 |2 |2 |
 |4 |3 |2 |
 
 with (1 = water, 2 = forest, etc. see tutorial) contains numbers which stand for classes. These numbers could be replaced with the biomass amounts, also given in the tutorial. They are there given in tonnes/ha, but the cell size is actually 6.25 ha. For example water = 0 (obviously), forrest = 300 * 6.25 = 1875. The raster would then be
 
 |0 |0 |1875 |
+|:-:|:-:|:-:|
 |0 |1875 |1875 |
 |? |? |1875 |
 
