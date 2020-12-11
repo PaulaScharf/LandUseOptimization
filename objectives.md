@@ -6,7 +6,7 @@ So my idea was that we in the end just have a table with some columns and every 
 - yield (in $ ?): yield value of a given resource (to be researched) * area of the mining cell (can also be preprocessed in GIS or other if we dont manage to do it in Python easily)
 - biomass (in tonnes): preprocess by summing up the biomass within a mining area, by assigning biomass to landuse like in tutorial and then just sum the raster cell values / pixel
 
-Then the table could look like this:
+Then the table would look like this:
 |id  |mining  |yield  |biomass |
 |---|---|---|---|
 |1   |true   |20000   |500   |
