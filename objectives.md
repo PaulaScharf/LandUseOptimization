@@ -51,14 +51,14 @@ In the end we want to have a summed biomass for each mining block, no matter whi
 
 The landuse raster
 
-|1|1|2|
-|1|2|2|
-|4|3|2|
+|1 |1 |2 |
+|1 |2 |2 |
+|4 |3 |2 |
 
 with (1 = water, 2 = forest, etc. see tutorial) contains numbers which stand for classes. These numbers could be replaced with the biomass amounts, also given in the tutorial. They are there given in tonnes/ha, but the cell size is actually 6.25 ha. For example water = 0 (obviously), forrest = 300 * 6.25 = 1875. The raster would then be
 
-|0|0|1875|
-|0|1875|1875|
-|?|?|1875|
+|0 |0 |1875 |
+|0 |1875 |1875 |
+|? |? |1875 |
 
 If then for each mining polygon the area *sum* of all pixel values in that polygon would be calculated (not the area mean), that would be the value of biomass a mining block contains.
