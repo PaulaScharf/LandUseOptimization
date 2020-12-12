@@ -41,18 +41,26 @@ fp = "./input_data/test_sample/test_sample.shp"
 mines = gpd.read_file(fp)
 print(calc_mine_yield([mines]))
 
-
-
 # calculate biomass of mining area
-def calc_mine_biomass(mine_array):
+def calc_mine_biomass(population_array):
     """A function to calculate the biomass lost in a collection of mining configurations."""
 
     biomass_sum = []
 
-    # TODO copy from above
-    for mine in mine_list:
+    for candidate in population_array:
 
-        # only sum up mining = TRUE biomasses
+        biomass = 0
 
-        biomass_sum.append()
+        true_entries = candidate.loc[candidate['mining'] == 1]
+
+        for i, entry in true_entries.iterrows():
+            area = entry['AREA_HA']
+            area = area * 2
+            biomass = biomass + area
+
+        biomass_sum.append(biomass)
+
     return(np.array(biomass_sum))
+
+# test biomass func
+print(calc_mine_biomass([mines]))
