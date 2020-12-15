@@ -37,12 +37,13 @@ class SpatialOnePointCrossover(Crossover):
             genome_child2 = list(genome_parent2)
 
             # get parts of genome from parents to children
+            # used 2 as placeholder, because 0 wouldnt work if we use 0 and 1 for mining = true / false
             j = 0
             for i in range(0, min(len(genome_parent1), len(genome_parent2))):
                 if j < len(cut_points):
                     if i >= cut_points[j]:
                         j = j + 1
-                        # alternating parent 1 and 0
+                # alternating parent 1 and 0
                 if (j % 2) != 0:
                     genome_child1[i] = 2.
                 # alternating 0 and parent 2
@@ -50,8 +51,12 @@ class SpatialOnePointCrossover(Crossover):
                     genome_child2[i] = 2.
 
             # dont know if this works with our tables; think we have to add childs as column again..
-            child1 = np.where(genome_child1 == 2, genome_parent2, genome_child1)
-            child2 = np.where(genome_child2 == 2, genome_parent1, genome_child2)
+            child1_filled = np.where(genome_child1 == 2, genome_parent2, genome_child1)
+            child2_filled = np.where(genome_child2 == 2, genome_parent1, genome_child2)
+            child1 = X[0][_]
+            child2 = X[1][_]
+            child1['mining'] = child1_filled
+            child2['mining'] = child2_filled
             child_mining1.append(child1)
             child_mining2.append(child2)
 
