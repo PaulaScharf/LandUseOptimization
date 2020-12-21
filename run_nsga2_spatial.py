@@ -24,7 +24,7 @@ from pymoo.factory import get_sampling, get_crossover, get_mutation
 from pymoo.factory import get_termination
 from pymoo.optimize import minimize
 
-# dir = ./
+default_directory = "./"
 
 # read input, yield maps are read -> dont have any
 
@@ -45,4 +45,15 @@ class MyProblem(Problem):
 
         out["F"] = np.column_stack([f1, f2])
 
-# algorithms = ...
+# run the algo
+algorithm = NSGA2(
+    pop_size = 10,
+    n_offsprings = 5,
+    sampling = get_sampling("spatial", default_dir = default_directory),
+    crossover = get_crossover("spatial_one_point_crossover", n_points = "doesn't matter"),
+    mutation = get_mutation("spatial_n_point_mutation", prob = 0.01,
+                            point_mutation_probability = 0.015),
+    eliminate_duplicates = False
+)
+
+termination = get_termination("n_gen", 2)
