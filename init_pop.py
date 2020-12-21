@@ -18,7 +18,7 @@ def initialize_spatial(pop_size, default_directory):
     length = len(table_in)
     
     # make specified number of initializations
-    for i in range(pop_size):
+    for _ in range(pop_size):
 
         new_table = gpd.GeoDataFrame(table_in)
         new_mining = []
@@ -32,18 +32,11 @@ def initialize_spatial(pop_size, default_directory):
         new_table['mining'] = new_mining
 
         table2safe = new_table.to_numpy()
-        
-        
+                
         all_tables.append(table2safe)
 
-    
-    #all_tables = np.array(all_tables.items())
-        
-        # TODO why are in the final table all 'mining' values the same? 
-        # i.e. why and how is the first table appended to all_tables lost?
-    # for key in range(all_tables):
+    print(all_tables[0][:,11])
     print(all_tables[1][:,11])
-
 
     return all_tables
 
