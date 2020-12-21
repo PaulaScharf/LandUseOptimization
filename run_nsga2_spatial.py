@@ -40,8 +40,8 @@ class MyProblem(Problem):
                         xu = 1.0)
 
     def _evaluate(self, X, out, *args, **kwargs):
-        # f1 = 
-        # f2 = 
+        f1 = -calc_mine_yield(X[:]) # calculates mining yield, needs to be maximized
+        f2 = calc_mine_biomass(X[:]) # calculates lost biomass, needs to be minimized
 
         out["F"] = np.column_stack([f1, f2])
 
