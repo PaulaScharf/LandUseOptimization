@@ -35,8 +35,8 @@ def initialize_spatial(pop_size, default_directory):
                 
         all_tables.append(table2safe)
 
-    print(all_tables[0][:,11])
-    print(all_tables[1][:,11])
+    # print(all_tables[0][:,11])
+    # print(all_tables[1][:,11])
 
     return all_tables
 
