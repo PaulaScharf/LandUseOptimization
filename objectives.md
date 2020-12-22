@@ -12,11 +12,27 @@ Then the table would look like this:
 |1   |true   |20000   |500   |
 |2   |true   |550000   |1200   |
 
+## Top Level
+
+* id from shapefile
+* contains all mining (true/false)
+* contains geometry
+
 Taking into account that our calculation of mining yield needs some flexibility to change it later on, an approach could also look like this:
-|id  |mining  |resource  |biomass |area |geometry |
+|id  |mining  |resource  |biomass |area |distance| geometry |
+|---|---|---|---|---|---|---|
+|{7E38CB67-E30C-40FE-8D59-8D6F79E0B07B} |true   |gold   |500   |1000 |10 | geometry... |
+|{4F3976CD-F3E6-42E5-826D-298719D02C0F} |false   |diamonds   |1200   |2000 |35 | geometry... |
+
+## Input to Algorithm
+
+* only FALSE
+* no geometry
+
+|id  |mining  |resource  |biomass |area |distance |
 |---|---|---|---|---|---|
-|1   |false   |gold   |500   |1000 | geometry... |
-|2   |false   |diamonds   |1200   |2000 | geometry... |
+|{7E38CB67-E30C-40FE-8D59-8D6F79E0B07B} |false   |gold   |500   |1000 | distance |
+|{4F3976CD-F3E6-42E5-826D-298719D02C0F} |false   |diamonds   |1200   |2000 | distance |
 
 
 An idea to include the ecological impact (i.e. distance to water / protected area) could be to weight the yield and / or biomass values with the distances, e.g.:
