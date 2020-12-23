@@ -31,12 +31,20 @@ def initialize_spatial(pop_size, default_directory):
         # replace the mining column
         new_table['mining'] = new_mining
 
-        table2safe = new_table.to_numpy()
+        # table2safe = new_table.to_numpy()
+        # instead, use to_records to preserve df names
+        table2safe = new_table.to_records()
                 
         all_tables.append(table2safe)
 
+<<<<<<< HEAD
+    # column name can be used as follows:
+    # print(all_tables[0]["mining"])
+    # print(all_tables[0]["mining"][0])
+=======
     # print(all_tables[0][:,11])
     # print(all_tables[1][:,11])
+>>>>>>> eb735c372ff9db4fd4f7259eaa40a3a50e582b29
 
     return all_tables
 
