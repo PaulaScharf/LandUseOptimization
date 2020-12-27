@@ -18,8 +18,8 @@ class SpatialOnePointCrossover(Crossover):
         child_mining2 = []
 
         for _ in range(n_matings):
-            genome_parent1 = X[0][_][:,11]
-            genome_parent2 = X[1][_][:,11]
+            genome_parent1 = X[0][_]['mining']
+            genome_parent2 = X[1][_]['mining']
 
             # define number of cuts
             num_crossover_points = self.n_points
@@ -70,8 +70,8 @@ class SpatialOnePointCrossover(Crossover):
 
             child1 = X[0][_]
             child2 = X[1][_]
-            child1[:, 11] = child1_filled
-            child2[:, 11] = child2_filled
+            child1['mining'] = child1_filled
+            child2['mining'] = child2_filled
 
             child_mining1.append(child1)
             child_mining2.append(child2)
@@ -86,18 +86,17 @@ class SpatialOnePointCrossover(Crossover):
 #Sprint(test._do(1,population))
 
 
-### test jan
+# ### test jan
 #
 # import init_pop
 #
 # test_mates = init_pop.initialize_spatial(4,"path")
 # mates = np.array([np.array(test_mates[0:2]), np.array(test_mates[2:4])])
 #
-# # print(len(mates))
-# # print(mates)
-#
-# print(mates[0][1][:,11])
-# print(mates[1][1][:,11])
+# print(len(mates))
+# print(mates)
+# print(mates[0][1]['mining'])
+# print(mates[1][1]['mining'])
 #
 # crossClass = SpatialOnePointCrossover(2)
 # crossed = crossClass._do(problem= test_mates, X=mates)
@@ -108,5 +107,5 @@ class SpatialOnePointCrossover(Crossover):
 # # print(mates[0][0][:,11])
 # # print(mates[1][0][:,11])
 # #
-# print(crossed[0][1][:,11])
-# print(crossed[1][1][:,11])
+# print(crossed[0][1]['mining'])
+# print(crossed[1][1]['mining'])
