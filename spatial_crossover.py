@@ -10,7 +10,6 @@ class SpatialOnePointCrossover(Crossover):
 
     def _do(self, problem, X, **kwargs):
 
-        #TODO: is this right?
         n_matings = X.shape[1]
 
         # child land use maps
