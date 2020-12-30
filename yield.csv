@@ -1,7 +1,7 @@
-material (pt), material (en), price per kg (USD), source price, production total in brazil, year production total inbrazil, source production total in brazil, area of production in brazil, notes
-OURO, gold, 60328.63, https://markets.businessinsider.com/commodities/gold-price, 85000, 2019, https://www.ceicdata.com/en/indicator/brazil/gold-production, , unit (yield) is kg/unit (price) is kg
-CASCALHO, gravel, , , 84800000, 2000, https://pubs.iied.org/pdfs/G00578.pdf, , unit (yield) is m3 (conversion 1.6 t/m3)/unit (price) is kg
-AREIA, sand, , , 135700000, 2000, https://pubs.iied.org/pdfs/G00578.pdf, , unit (yield) is m3 (conversion 1.6 t/m3)/unit (price) is kg
+material (pt), material (en), price per kg (USD), source price, production total in brazil (kg), year production total in brazil, source production total in brazil, area of production in brazil, notes
+OURO, gold, 60328.63, https://markets.businessinsider.com/commodities/gold-price, 85000, 2019, https://www.ceicdata.com/en/indicator/brazil/gold-production, ,
+CASCALHO, gravel, 0.00929, https://www.statista.com/statistics/219381/sand-and-gravel-prices-in-the-us/, 135680, 2000, https://pubs.iied.org/pdfs/G00578.pdf, , 
+AREIA, sand, 0.00929, https://www.statista.com/statistics/219381/sand-and-gravel-prices-in-the-us/, 217120, 2000, https://pubs.iied.org/pdfs/G00578.pdf, , 
 ARENITO, sandstone, , , , , https://montesiaomineracao.com.br/en/brazil-closes-2018-among-the-largest-countries-in-the-production-and-export-of-marble-and-granite-and-maintains-a-prominent-global-position/, ,
 MANGANÃŠS, manganese, , , , , , ,
 GRANITO, granite, , , , , , ,
@@ -13,7 +13,7 @@ ARGILA, clay, , , , , , ,
 CALCÃRIO, limestone, , , , , , ,
 TURFA, peat, , , , , , ,
 CASSITERITA, cassiterite, , , , , , ,
-COBRE, copper, 7.77, https://markets.businessinsider.com/commodities/copper-price, 361500, 2019, https://www.statista.com/statistics/795920/brazil-copper-production-volume/, , unit (yield) is metric tons/unit (price) is kg
+COBRE, copper, 7.77, https://markets.businessinsider.com/commodities/copper-price, 361.5, 2019, https://www.statista.com/statistics/795920/brazil-copper-production-volume/, , unit (yield) is metric tons/unit (price) is kg
 DIABÃSIO, diabase, , , , , , ,
 ÃGUA MINERAL, mineral water, , , , , , ,
 AMETISTA, amethyst, , , , , , ,
@@ -42,7 +42,7 @@ MAGNETITA, magnetite, , , , , , ,
 MINÃ‰RIO DE CHUMBO, lead ore, , , , , , ,
 MINÃ‰RIO DE COBRE, copper ore, , , , , , ,
 MINÃ‰RIO DE ESTANHO, tin ore, , , , , , ,
-MINÃ‰RIO DE FERRO, iron ore, 155.35, https://markets.businessinsider.com/commodities/iron-ore-price, 410000000, 2019, https://en.wikipedia.org/wiki/Mining_in_Brazil, , unit (price and yield) is tons
+MINÃ‰RIO DE FERRO, iron ore, 0.15535, https://markets.businessinsider.com/commodities/iron-ore-price, 410000, 2019, https://en.wikipedia.org/wiki/Mining_in_Brazil, , 
 MINÃ‰RIO DE MANGANÃŠS, manganese ore, , , , , , ,
 MINÃ‰RIO DE NÃQUEL, nickel ore, , , , , , ,
 MINÃ‰RIO DE NIÃ“BIO, niobium ore, , , , , , ,
