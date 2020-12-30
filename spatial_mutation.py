@@ -8,7 +8,7 @@ def random_reset_mutation(genome_in, point_mutation_prob):
     for i in range(1, len(genome)):
         if np.random.uniform(0, 1) < point_mutation_prob:
             #bool(random.getrandbits(1)) returns true or false at random
-            genome[i][0] = bool(random.getrandbits(1))
+            genome[i][1]["mining"] = bool(random.getrandbits(1))
     return genome
 
 # class that performs the mutation
@@ -36,8 +36,26 @@ class SpatialNPointMutation(Mutation):
         return offspring
 
 ############# use following lines for testing #############
-import sys
-sys.path.insert(0, 'input_data/test_sample')
-from test_parents_crossover import *
-test = SpatialNPointMutation(0.8, 0.6)
-print(test._do(1,population))
+### test jan
+#
+# import init_pop
+#
+# test_mates = init_pop.initialize_spatial(4,"path")
+# mates = np.array([np.array(test_mates[0:2]), np.array(test_mates[2:4])])
+#
+# #print(len(mates))
+# #print(mates)
+# #print(mates[0][1]['mining'])
+# #print(mates[1][1]['mining'])
+# #
+# mutClass = SpatialNPointMutation(0.8,0.6)
+# mutated = mutClass._do(problem= test_mates, X=mates)
+# #
+# # print(crossed)
+# #
+# # print("parents")
+# # print(mates[0][0][:,11])
+# # print(mates[1][0][:,11])
+# #
+# print(mutated[0][1]['mining'])
+# print(mutated[1][1]['mining'])
