@@ -6,7 +6,7 @@ ARENITO, sandstone, , , , , https://montesiaomineracao.com.br/en/brazil-closes-2
 MANGANÃŠS, manganese, , , , , , ,
 GRANITO, granite, , , , , , ,
 MÃRMORE, marble, , , , , , ,
-DIAMANTE, diamond, , , 31800, 2015, http://www.brazil.gov.br/about-brazil/news/2016/12/diamond-production-in-brazil-may-grow-up-to-10-times, , unit (yield) is carat/unit (price) is kg
+DIAMANTE, diamond, , , 31800, 2015, http://www.brazil.gov.br/about-brazil/news/2016/12/diamond-production-in-brazil-may-grow-up-to-10-times, 3023468, unit (yield) is carat/unit (price) is kg
 DIAMANTE INDUSTRIAL, industrial diamond, , , , , , ,
 FOSFATO, phosphate, , , , , , ,
 ARGILA, clay, , , , , , ,
@@ -42,7 +42,7 @@ MAGNETITA, magnetite, , , , , , ,
 MINÃ‰RIO DE CHUMBO, lead ore, , , , , , ,
 MINÃ‰RIO DE COBRE, copper ore, , , , , , ,
 MINÃ‰RIO DE ESTANHO, tin ore, , , , , , ,
-MINÃ‰RIO DE FERRO, iron ore, 0.15535, https://markets.businessinsider.com/commodities/iron-ore-price, 410000, 2019, https://en.wikipedia.org/wiki/Mining_in_Brazil, 190362.1, 
+MINÃ‰RIO DE FERRO, iron ore, 0.15535, https://markets.businessinsider.com/commodities/iron-ore-price, 410000, 2019, https://en.wikipedia.org/wiki/Mining_in_Brazil, 14328360, 
 MINÃ‰RIO DE MANGANÃŠS, manganese ore, , , , , , ,
 MINÃ‰RIO DE NÃQUEL, nickel ore, , , , , , ,
 MINÃ‰RIO DE NIÃ“BIO, niobium ore, , , , , , ,
