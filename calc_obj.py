@@ -16,10 +16,10 @@ def calc_mine_yield(population_array):
 
         # this is for geopandas frame, select mining = TRUE
         # TODO creating a column with true/false results into 1/0 in shp.. investigate
-        true_entries = candidate.loc[candidate['mining'] == 1]
+        true_entries = candidate[candidate['mining'] == True]
 
         # go through rows
-        for i, entry in true_entries.iterrows():
+        for entry in true_entries:
 
             # calculate yield
             area = entry['AREA_HA']
@@ -36,10 +36,10 @@ def calc_mine_yield(population_array):
 
     return(np.array(all_yields))
 
-# small testing code, returns area sum
-fp = "./input_data/test_sample/test_sample.shp"
-mines = gpd.read_file(fp)
-print(calc_mine_yield([mines]))
+# # small testing code, returns area sum
+# fp = "./input_data/test_sample/test_sample.shp"
+# mines = gpd.read_file(fp)
+# print(calc_mine_yield([mines]))
 
 # calculate biomass of mining area
 def calc_mine_biomass(population_array):
@@ -51,9 +51,9 @@ def calc_mine_biomass(population_array):
 
         biomass = 0
 
-        true_entries = candidate.loc[candidate['mining'] == 1]
+        true_entries = candidate[candidate['mining'] == True]
 
-        for i, entry in true_entries.iterrows():
+        for entry in true_entries:
             area = entry['AREA_HA']
             area = area * 2
             biomass = biomass + area
@@ -63,4 +63,4 @@ def calc_mine_biomass(population_array):
     return(np.array(biomass_sum))
 
 # test biomass func
-print(calc_mine_biomass([mines]))
+# print(calc_mine_biomass([mines]))

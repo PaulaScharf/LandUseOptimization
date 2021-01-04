@@ -29,13 +29,9 @@ class SpatialOnePointCrossover(Crossover):
                                                     len(genome_parent2))), num_cuts)
             cut_points.sort()
 
-            print(cut_points)
-
             # define initial genome of children (np.array(list(...)) is used to create a copy)
             genome_child1 = (list(genome_parent1))
             genome_child2 = (list(genome_parent2))
-
-            #print(genome_child1)
 
             # get parts of genome from parents to children
             # used 2 as placeholder, because 0 wouldnt work if we use 0 and 1 for mining = true / false
@@ -54,18 +50,8 @@ class SpatialOnePointCrossover(Crossover):
             genome1 = np.array(genome_child1)
             genome2 = np.array(genome_child2)
 
-            # print(genome1)
-            # print(genome2)
-            #
-            # print(genome_parent1)
-            # print(genome_parent2)
-
             child1_filled = np.where(genome1 == None, genome_parent2, genome_parent1)
-            # print(child1_filled)
             child2_filled = np.where(genome2 == None, genome_parent2, genome_parent1)
-
-            #print(child1_filled)
-            # print(child2_filled)
 
             child1 = X[0][_]
             child2 = X[1][_]

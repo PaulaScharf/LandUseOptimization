@@ -8,7 +8,7 @@ def random_reset_mutation(genome_in, point_mutation_prob):
     for i in range(1, len(genome)):
         if np.random.uniform(0, 1) < point_mutation_prob:
             #bool(random.getrandbits(1)) returns true or false at random
-            genome[i][1]["mining"] = bool(random.getrandbits(1))
+            genome[i]["mining"] = bool(random.getrandbits(1))
     return genome
 
 # class that performs the mutation

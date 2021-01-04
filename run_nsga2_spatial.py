@@ -86,7 +86,7 @@ ax1.set_ylabel('Above ground biomass [tonnes]')
 plt.show()
 #f1.savefig('objective_space.png')
 
-# TODO Create design space (as is it different to tutorial through the vector data)
+# TODO Create design space (as it is different to tutorial through the vector data)
 
 
 #############################
@@ -102,8 +102,8 @@ for generation in res.history:
     f.append(this_f)
 
 n_gen = np.array(range(1, len(f) + 1))
-print(n_gen)
-print(f)
+# print(n_gen)
+# print(f)
 
 # get maximum (extremes) of each generation for both objectives
 obj_1 = []
@@ -123,11 +123,11 @@ ax3a.set_ylabel("Maximum total yield [tonnes]")
 ax3b.plot(n_gen, -np.array(obj_2))
 ax3b.set_xlabel("Generation")
 ax3b.set_ylabel("Above ground biomass [tonnes]")
-plt.savefig(default_directory + "/figures/objectives_over_generations")
+plt.savefig(default_directory + "/figures/objectives_over_generations.png")
 plt.show()
 
 # add here the generations you want to see in the plot
-generations2plot = [50, 100] #, 500, 750, 1000, 1500, 2000]
+generations2plot = [10, 25, 50] #, 500, 750, 1000, 1500, 2000]
 
 # make the plot
 fig4, ax4 = plt.subplots(1)
