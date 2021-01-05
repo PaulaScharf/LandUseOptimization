@@ -37,7 +37,7 @@ def structure(data):
 	df['distance'] = df.geometry.apply(lambda g: PAdf_trans.distance(g).min())
 	print(df['distance'])
 
-	#**Defining True and False THINKS TO CLARIFY**
+	#**Defining True and False THINGS TO CLARIFY**
 
 	#df.loc[df['PHASE'].str.contains('APPLICATION'), 'minning'] = 'false'
 
