@@ -41,6 +41,10 @@ def structure(data):
 
 	#df.loc[df['PHASE'].str.contains('APPLICATION'), 'minning'] = 'false'
 
+	#** Calcularion Urban Areas **
+
+	df['Urban_Area'] = 0
+
 	#Normalizing Mineral Names and Adding Yield Values (GOLD,COPPER, GRAVEL, IRON, SAND)
 
 	df.loc[df['SUBS'].str.contains('GOLD'),['SUBS', 'YIELD']] = ['GOLD', 60328.63 ]

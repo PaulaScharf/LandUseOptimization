@@ -1,15 +1,30 @@
 import geopandas as gpd
 import pandas as pd
+import googletrans
+from googletrans import Translator
+import pydeepl
 
-read_data = gpd.read_file("./input_data/MinningBlocks/MT.shp")
-new_data = pd.read_csv("./input_data/table_translated.csv", encoding='latin1')
+read_data = gpd.read_file("./../input_data/MinningBlocks/MT.shp")
 
 geodf = gpd.GeoDataFrame(read_data)
 geodf_trans = geodf.to_crs(epsg=9001)
-df= pd.DataFrame(new_data)
-df['geometry'] = geodf_trans['geometry']
-geodf = df
-gdf = gpd.GeoDataFrame(geodf, geometry='geometry')
 
-print(gdf['PHASE'])
-gdf.to_file("./input_data/MinningBlocks/MT_translated.shp")
+translator = Translator()
+translations = {}
+for column in geodf.columns:
+
+	if column == 'SUBS':
+		# Unique elements of the column
+		unique_elements = geodf[column].unique()
+		print(unique_elements);
+		for element in unique_elements:
+			# Adding all the translations to a dictionary (translations)
+			translations[element] = translator.translate(element).text
+print(translations)
+
+geodf.replace(translations, inplace = True)
+geodf.head(10)
+
+#print(geodf)
+
+#gdf.to_file("./input_data/MinningBlocks/MT_translated.shp")
