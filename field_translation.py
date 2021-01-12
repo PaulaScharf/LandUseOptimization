@@ -2,7 +2,6 @@ import geopandas as gpd
 import pandas as pd
 import googletrans
 from googletrans import Translator
-import pydeepl
 
 read_data = gpd.read_file("./../input_data/MinningBlocks/MT.shp")
 read_status = gpd.read_file("./../input_data/MinningBlocks/Brazil_mining_concessions.shp")

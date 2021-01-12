@@ -5,6 +5,30 @@ import fiona
 import matplotlib as plt
 
 
+def calc_biomass(df,landuse):
+	landuse.loc[landuse['gridcode'] == 1, ['new_id','biomass']] = [2,48]
+	landuse.loc[landuse['gridcode'] == 2, ['new_id','biomass']] = [6,0]
+	landuse.loc[landuse['gridcode'] == 3, ['new_id','biomass']] = [1,300]
+	landuse.loc[landuse['gridcode'] == 4, ['new_id','biomass']] = [7,4.69]
+	landuse.loc[landuse['gridcode'] == 5, ['new_id','biomass']] = [4,0]
+	landuse.loc[landuse['gridcode'] == 6, ['new_id','biomass']] = [4,0]
+	landuse.loc[landuse['gridcode'] == 7, ['new_id','biomass']] = [4,0]
+	landuse.loc[landuse['gridcode'] == 8, ['new_id','biomass']] = [4,0]
+	landuse.loc[landuse['gridcode'] == 9, ['new_id','biomass']] = [4,0]
+	landuse.loc[landuse['gridcode'] == 10, ['new_id','biomass']] = [5,16]
+	landuse.loc[landuse['gridcode'] == 11, ['new_id','biomass']] = [9,0]
+	landuse.loc[landuse['gridcode'] == 12, ['new_id','biomass']] = [8,0]
+	landuse.loc[landuse['gridcode'] == 13, ['new_id','biomass']] = [3,150]
+	landuse.loc[landuse['gridcode'] == 15, ['new_id','biomass']] = [10,0]
+
+	lu = landuse.to_crs("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +R=6371007.181 +units=m +no_defs +type=crs")
+	df_mixed = gpd.overlay(lu,df, how= 'identity')
+	
+	print(df_mixed['geometry'])
+
+	df_mixed['biomass_tot'] = df['biomass'] # * (df_mixed['geometry'].area / 10**4)
+
+	return df_mixed['ID','biomass_tot'].groupby(by=['ID']).sum()
 
 def saving_finalFiles(df, new_df):
 	## READING AREAS##
@@ -20,23 +44,20 @@ def saving_finalFiles(df, new_df):
 	StAr2_data  = gpd.clip(new_df,StAr2)
 
 	## WRITING THE FINAL FILES ##
-	
-	#** Writing TOP LEVEL dataset **
-	#df.to_File("./input_data/TopLevel.shp")
 
 	#** Writing FILTERED DATA dataset (Just Rows with yield column) **
 	StAr1_data.to_file("./study_areas/study1.shp")
 	StAr2_data.to_file("./study_areas/study2.shp")
 
+	#** Writing TOP LEVEL dataset **
+	#df.to_File("./study_areas/TopLevel.shp")
 
 def structure(data):
 	# **Reading LandUse Areas**
 	read_landUse = gpd.read_file("./../input_data/LandUse/LandUse.shp")
 	landUse =  gpd.GeoDataFrame(read_landUse, geometry='geometry')
-	print(data.columns)
 	# **Reading Protected Areas**
 	read_protectedAreas = gpd.read_file("./../input_data/ProtectedAreas/ProtectedAreas.shp")
-	print(read_protectedAreas['geometry'])
 	# **Creating the GeoDataFrame**
 	PAdf =  gpd.GeoDataFrame(read_protectedAreas, geometry='geometry')
 	
@@ -51,8 +72,8 @@ def structure(data):
 
 	#**Measure the Distances**
 	
-	df['distance'] = df.geometry.apply(lambda g: PAdf_trans.distance(g).min())
-	print(df['distance'])
+	#df['distance'] = df.geometry.apply(lambda g: PAdf_trans.distance(g).min())
+	#print(df['distance'])
 
 	#**Defining True and False THINGS TO CLARIFY**
 	df['minning'] = 'true'
@@ -62,8 +83,7 @@ def structure(data):
 
 	#** Calcularion Urban Areas **
 	urban_areas =  landUse.loc[landUse['gridcode'] == 11]
-	print(urban_areas)
-	df['Urban_Area'] = 0
+	#df['Urban_Area'] =  df.intersects(urban_areas.unary_union).astype(bool);
 
 	#Normalizing Mineral Names and Adding Yield Values (GOLD,COPPER, GRAVEL, IRON, SAND)
 
@@ -75,11 +95,19 @@ def structure(data):
 
 	# Selecting Mining Zones with all the values
 	new_df =  df[df['YIELD'].notnull()]
-	print(new_df['geometry'])
+	print(new_df.columns)
 
+	# Calculating Biomass 
 
+	biomass = calc_biomass(new_df,landUse)
 
-	saving_finalFiles(df,new_df)
+	print(biomass)
+
+	# Adding the Biomass to the Dataset
+
+	merged_df = new_df.merge(biomass, on='ID')
+
+	saving_finalFiles(df,merged_df)
 
 # Initializing the  Functions
 read_data = gpd.read_file("./../input_data/MinningBlocks/MT_translated.shp")
