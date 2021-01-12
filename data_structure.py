@@ -6,6 +6,7 @@ import matplotlib as plt
 
 
 def calc_biomass(df,landuse):
+	landuse['biomass'] = 0;
 	landuse.loc[landuse['gridcode'] == 1, ['new_id','biomass']] = [2,48]
 	landuse.loc[landuse['gridcode'] == 2, ['new_id','biomass']] = [6,0]
 	landuse.loc[landuse['gridcode'] == 3, ['new_id','biomass']] = [1,300]
@@ -26,7 +27,7 @@ def calc_biomass(df,landuse):
 	
 	print(df_mixed['geometry'])
 
-	df_mixed['biomass_tot'] = df['biomass'] # * (df_mixed['geometry'].area / 10**4)
+	df_mixed['biomass_tot'] = df['biomass'] * (df_mixed['geometry'].area / 10**4)
 
 	return df_mixed['ID','biomass_tot'].groupby(by=['ID']).sum()
 
@@ -72,7 +73,7 @@ def structure(data):
 
 	#**Measure the Distances**
 	
-	#df['distance'] = df.geometry.apply(lambda g: PAdf_trans.distance(g).min())
+	df['distance'] = df.geometry.apply(lambda g: PAdf_trans.distance(g).min())
 	#print(df['distance'])
 
 	#**Defining True and False THINGS TO CLARIFY**
@@ -83,7 +84,7 @@ def structure(data):
 
 	#** Calcularion Urban Areas **
 	urban_areas =  landUse.loc[landUse['gridcode'] == 11]
-	#df['Urban_Area'] =  df.intersects(urban_areas.unary_union).astype(bool);
+	df['Urban_Area'] =  df.intersects(urban_areas.unary_union).astype(bool);
 
 	#Normalizing Mineral Names and Adding Yield Values (GOLD,COPPER, GRAVEL, IRON, SAND)
 
