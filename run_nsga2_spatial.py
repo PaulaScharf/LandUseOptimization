@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 # from matplotlib.colors import ListedColormap
 from pymoo.util.misc import stack
 from pymoo.model.problem import Problem 
-from calc_obj import calc_mine_yield, calc_mine_biomass
+from calc_obj import calc_mine_yield, calc_mine_biomass, calc_protected_distance
 
 from pymoo.algorithms.nsga2 import NSGA2 
 from pymoo.factory import get_sampling, get_crossover, get_mutation
@@ -33,7 +33,7 @@ class MyProblem(Problem):
 
     # define nr of variables etc.
     def __init__(self):
-        super().__init__(n_var = 10,
+        super().__init__(n_var = 129,
                         n_obj = 2,
                         n_constr = 0,
                         xl = 0.0,
@@ -42,24 +42,27 @@ class MyProblem(Problem):
     def _evaluate(self, X, out, *args, **kwargs):
         f1 = -calc_mine_yield(X[:]) # calculates mining yield, needs to be maximized
         f2 = calc_mine_biomass(X[:]) # calculates lost biomass, needs to be minimized
+        f3 = -calc_protected_distance(X[:]) # calculates average distance to protected areas, needs to be maximized
 
-        out["F"] = np.column_stack([f1, f2])
+
+        out["F"] = np.column_stack([f1, f2, f3])
 
 
 problem = MyProblem()
 
 # run the algo
 algorithm = NSGA2(
-    pop_size = 10,
+    # TODO: automatically get pop_size from init_pop
+    pop_size = 129,
     n_offsprings = 5,
     sampling = get_sampling("spatial", default_dir = default_directory),
-    crossover = get_crossover("spatial_one_point_crossover", n_points = 2),
-    mutation = get_mutation("spatial_n_point_mutation", prob = 0.01,
+    crossover = get_crossover("spatial_one_point_crossover", n_points = 5),
+    mutation = get_mutation("spatial_n_point_mutation", prob = 0.05,
                             point_mutation_probability = 0.015),
     eliminate_duplicates = False
 )
 
-termination = get_termination("n_gen", 50)
+termination = get_termination("n_gen", 500)
 
 res = minimize(
     problem,
@@ -85,6 +88,13 @@ ax1.set_xlabel('Total yield [tonnes]')
 ax1.set_ylabel('Above ground biomass [tonnes]')
 plt.show()
 #f1.savefig('objective_space.png')
+
+f6, ax6 = plt.subplots(1)
+im6 = plt.scatter(-res.F[:, 1], -res.F[:, 2]) #, s=30, fc='none', ec='k')
+ax6.set_title('objective space / pareto front')
+ax6.set_xlabel('Total biomass [tonnes]')
+ax6.set_ylabel('Distance ')
+plt.show()
 
 # TODO Create design space (as it is different to tutorial through the vector data)
 
@@ -127,7 +137,7 @@ plt.savefig(default_directory + "/figures/objectives_over_generations.png")
 plt.show()
 
 # add here the generations you want to see in the plot
-generations2plot = [10, 25, 50] #, 500, 750, 1000, 1500, 2000]
+generations2plot = [10, 25, 50, 100, 200, 500]#, 750, 1000]#, 1500, 2000]
 
 # make the plot
 fig4, ax4 = plt.subplots(1)

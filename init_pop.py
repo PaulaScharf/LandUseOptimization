@@ -10,7 +10,7 @@ def initialize_spatial(pop_size, default_directory):
     all_tables = []
     
     # read the initial dataset (a table with all 'mining' = FALSE)
-    table_in = gpd.read_file("./input_data/test_sample/test_sample.shp")
+    table_in = gpd.read_file("./study_areas/study2.shp")
 
     #table = gpd.GeoDataFrame(table_in)
     #print(table)
