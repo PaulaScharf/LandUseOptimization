@@ -25,11 +25,16 @@ def calc_biomass(df,landuse):
 	lu = landuse.to_crs("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +R=6371007.181 +units=m +no_defs +type=crs")
 	df_mixed = gpd.overlay(lu,df, how= 'identity')
 	
-	print(df_mixed['geometry'])
+	print(df_mixed['geometry'].area)
+	print(df_mixed['biomass'].unique())
 
-	df_mixed['biomass_tot'] = df['biomass'] * (df_mixed['geometry'].area / 10**4)
+	df_mixed['biomass_tot'] = df_mixed['biomass'] * (df_mixed['geometry'].area / 10**4)
 
-	return df_mixed['ID','biomass_tot'].groupby(by=['ID']).sum()
+	print(df_mixed['biomass_tot'])
+
+	returned = df_mixed[['ID','biomass_tot']].groupby(by=['ID']).sum() 
+	
+	return returned
 
 def saving_finalFiles(df, new_df):
 	## READING AREAS##
@@ -74,7 +79,6 @@ def structure(data):
 	#**Measure the Distances**
 	
 	df['distance'] = df.geometry.apply(lambda g: PAdf_trans.distance(g).min())
-	#print(df['distance'])
 
 	#**Defining True and False THINGS TO CLARIFY**
 	df['minning'] = 'true'
