@@ -22,7 +22,7 @@ def calc_mine_yield(population_array):
         for entry in true_entries:
 
             # calculate yield
-            area = entry['AREA_HA']
+            area = entry['AREA_HA'] * entry['YIELD']
             # add to yield of candidate
             yields = yields + area
 
@@ -54,13 +54,45 @@ def calc_mine_biomass(population_array):
         true_entries = candidate[candidate['mining'] == True]
 
         for entry in true_entries:
-            area = entry['AREA_HA']
-            area = area * 2
-            biomass = biomass + area
+            # TODO: change to entry('biomass')
+            # biomass_entry = entry['AREA_HA']
+            # distance = entry['distance'] * 10e+06
+            # if distance != 0:
+            #     biomass_weighted = biomass_entry / distance
+            # else:
+            #     biomass_weighted = biomass_entry
+            biomass_weighted = entry['distance']
+            biomass = biomass + biomass_weighted
 
         biomass_sum.append(biomass)
 
     return(np.array(biomass_sum))
+
+# test biomass func
+# print(calc_mine_biomass([mines]))
+
+
+
+# calculate distances to protected areas
+def calc_protected_distance(population_array):
+    """A function to calculate the biomass lost in a collection of mining configurations."""
+
+    distance_sum = []
+
+    for candidate in population_array:
+
+        distances = 0
+
+        true_entries = candidate[candidate['mining'] == True]
+
+        for entry in true_entries:
+
+            distance = entry['distance']
+            distances = distances + distance
+
+        distance_sum.append(distances/len(true_entries))
+
+    return(np.array(distance_sum))
 
 # test biomass func
 # print(calc_mine_biomass([mines]))
