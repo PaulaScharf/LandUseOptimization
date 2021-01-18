@@ -30,15 +30,6 @@ def calc_biomass(df,landuse):
 
 	return df_mixed[['ID','biomass_tot']].groupby(by=['ID']).sum()
 
-def saving_finalFiles(StAr1_data, StAr2_data):
-
-	## WRITING THE FINAL FILES ##
-
-	#** Writing FILTERED DATA dataset (Just Rows with yield column) **
-	print("[INFO] writing the resulting study areas to file")
-	StAr1_data.to_file("./study_areas/study1.shp")
-	StAr2_data.to_file("./study_areas/study2.shp")
-
 def clipping(df):
 	## READING AREAS##
 	print("[INFO] reading the study area extent")
@@ -125,10 +116,13 @@ def main(data):
 	stud1, stud2 = clipping(df)
 	print("[CRITICAL] structuring the first study area")
 	stud1 = structuring(stud1,PAdf_trans,landUse)
+	print("[INFO] writing the resulting study area to file")
+	stud1.to_file("./study_areas/study1.shp")
+
 	print("[CRITICAL] structuring the second study area")
 	stud2 = structuring(stud2,PAdf_trans,landUse)
-
-	saving_finalFiles(stud1,stud2)
+	print("[INFO] writing the resulting study areas to file")
+	stud2.to_file("./study_areas/study2.shp")
 
 # Initializing the  Functions
 print("[INFO] reading mining data")
