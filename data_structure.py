@@ -26,10 +26,9 @@ def calc_biomass(df,landuse):
 	lu = landuse.to_crs("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +R=6371007.181 +units=m +no_defs +type=crs")
 	df_mixed = gpd.overlay(lu,df, how= 'identity')
 	df_mixed['biomass_tot'] = df_mixed['biomass'] * (df_mixed['geometry'].area / 10**4)
-	df_mixed.to_file("./input_data/input_data/temp.shp")
-	print(df_mixed['ID'].head(5))
+	df_mixed = df_mixed.rename(columns={"ID_1": "ID","biomass_to":"biomass_tot"})
 
-	return df_mixed['ID','biomass_tot'].groupby(by=['ID']).sum()
+	return df_mixed[['ID','biomass_tot']].groupby(by=['ID']).sum()
 
 def saving_finalFiles(StAr1_data, StAr2_data):
 
@@ -121,7 +120,7 @@ def main(data):
 
 	# **Filtering the Columns**
 	print("[INFO] filtering the columns")
-	df = data[['ID','FASE','AREA_HA','SUBS','USO','UF','status','geometry']].to_crs("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +R=6371007.181 +units=m +no_defs +type=crs")
+	df = data[['ID','FASE','AREA_HA','SUBS','USO','UF','status','geometry','leyenda']].to_crs("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +R=6371007.181 +units=m +no_defs +type=crs")
 
 	stud1, stud2 = clipping(df)
 	print("[CRITICAL] structuring the first study area")
@@ -129,7 +128,7 @@ def main(data):
 	print("[CRITICAL] structuring the second study area")
 	stud2 = structuring(stud2,PAdf_trans,landUse)
 
-	saving_finalFile(stud1,stud2)
+	saving_finalFiles(stud1,stud2)
 
 # Initializing the  Functions
 print("[INFO] reading mining data")
