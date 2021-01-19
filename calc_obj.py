@@ -75,7 +75,7 @@ def calc_mine_biomass(population_array):
 
 # calculate distances to protected areas
 def calc_protected_distance(population_array):
-    """A function to calculate the biomass lost in a collection of mining configurations."""
+    """A function to calculate the average distance of all mining areas to the nearest protected area."""
 
     distance_sum = []
 
