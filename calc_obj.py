@@ -61,7 +61,7 @@ def calc_mine_biomass(population_array):
             #     biomass_weighted = biomass_entry / distance
             # else:
             #     biomass_weighted = biomass_entry
-            biomass_weighted = entry['distance']
+            biomass_weighted = entry['biomass_to']
             biomass = biomass + biomass_weighted
 
         biomass_sum.append(biomass)
@@ -87,7 +87,7 @@ def calc_protected_distance(population_array):
 
         for entry in true_entries:
 
-            distance = entry['distance']
+            distance = entry['distance'] / 1000
             distances = distances + distance
 
         distance_sum.append(distances/len(true_entries))
