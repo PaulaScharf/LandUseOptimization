@@ -4,6 +4,8 @@ from pymoo import factory
 from pymoo.model.crossover import Crossover
 import spatial_extension_pymoo as sep
 
+import pandas as pd
+
 # add spatial functions to pymoo lib
 factory.get_sampling_options = sep._new_get_sampling_options
 factory.get_crossover_options = sep._new_get_crossover_options
@@ -14,6 +16,9 @@ Crossover.do = sep._new_crossover_do
 import numpy as np
 # import pickle
 import matplotlib.pyplot as plt
+import plotly
+import plotly.tools as tls
+
 # from matplotlib.colors import ListedColormap
 from pymoo.util.misc import stack
 from pymoo.model.problem import Problem 
@@ -44,7 +49,6 @@ class MyProblem(Problem):
         f2 = calc_mine_biomass(X[:]) # calculates lost biomass, needs to be minimized
         f3 = -calc_protected_distance(X[:]) # calculates average distance to protected areas, needs to be maximized
 
-
         out["F"] = np.column_stack([f1, f2, f3])
 
 
@@ -62,7 +66,7 @@ algorithm = NSGA2(
     eliminate_duplicates = False
 )
 
-termination = get_termination("n_gen", 500)
+termination = get_termination("n_gen", 2000)
 
 res = minimize(
     problem,
@@ -80,6 +84,12 @@ print(res.X)
 print("response F")
 print(res.F)
 
+# print(len(res.X))
+# print(len(res.X[1]))
+# df = pd.DataFrame(res.X[1]).set
+# df.to_excel("../test/study2.xlsx")
+# np.savetxt('../test/study2_yield.csv', res.X[np.argmax(-res.F[:,0], axis=0)], delimiter=",", fmt='%s')
+
 
 f1, (ax1a, ax1b, ax1c) = plt.subplots(1, 3, figsize=(15, 5))
 ax1a.scatter(-res.F[:, 0], -res.F[:, 1]) #, s=30, fc='none', ec='k')
@@ -95,7 +105,7 @@ ax1c.set_title('objective space / pareto front')
 ax1c.set_xlabel('Total yield [€]')
 ax1c.set_ylabel('Average distance to protected area [km]')
 plt.savefig(default_directory + "/figures/objective_space.png")
-plt.show()
+# plt.show()
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
@@ -104,28 +114,9 @@ ax.set_xlabel('Total yield [€]')
 ax.set_ylabel('Biomass loss [tonnes]')
 ax.set_zlabel('Average distance to protected area [km]')
 plt.savefig(default_directory + "/figures/objective_space_3d.png")
-plt.show()
+plt.savefig(default_directory + "/figures/objective_space_3d.svg")
+# plt.show()
 
-# f1, ax1a = plt.subplots(1)
-# im1 = plt.scatter(-res.F[:, 0], -res.F[:, 1]) #, s=30, fc='none', ec='k')
-# ax1a.set_title('objective space / pareto front')
-# ax1a.set_xlabel('Total yield [tonnes]')
-# ax1a.set_ylabel('Above ground biomass [tonnes]')
-# plt.show()
-#
-# f1, ax1a = plt.subplots(1)
-# im1 = plt.scatter(-res.F[:, 0], -res.F[:, 2]) #, s=30, fc='none', ec='k')
-# ax1a.set_title('objective space / pareto front')
-# ax1a.set_xlabel('Total yield [tonnes]')
-# ax1a.set_ylabel('Distance')
-# plt.show()
-#
-# f1, ax1a = plt.subplots(1)
-# im1 = plt.scatter(-res.F[:, 1], -res.F[:, 2]) #, s=30, fc='none', ec='k')
-# ax1a.set_title('objective space / pareto front')
-# ax1a.set_xlabel('biomass')
-# ax1a.set_ylabel('distance')
-# plt.show()
 
 # TODO Create design space (as it is different to tutorial through the vector data)
 
@@ -143,8 +134,6 @@ for generation in res.history:
     f.append(this_f)
 
 n_gen = np.array(range(1, len(f) + 1))
-# print(n_gen)
-# print(f)
 
 # get maximum (extremes) of each generation for both objectives
 obj_1 = []
@@ -171,10 +160,10 @@ ax3c.plot(n_gen, -np.array(obj_3))
 ax3c.set_xlabel("Generation")
 ax3c.set_ylabel("Average distance to protected areas [km]")
 plt.savefig(default_directory + "/figures/objectives_over_generations.png")
-plt.show()
+# plt.show()
 
 # add here the generations you want to see in the plot
-generations2plot = [10, 50, 250, 500, 1000, 1500, 2000, 3500, 5000]
+generations2plot = [10, 25, 50, 250, 500, 1000, 1500, 2000, 3500, 5000]
 
 # make the plot
 fig4, (ax4a, ax4b, ax4c) = plt.subplots(1, 3, figsize=(15, 5))
@@ -191,6 +180,17 @@ ax4a.set_xlabel('Total yield [€]')
 ax4a.set_ylabel('Average distance to protected area [km]')
 plt.legend(list(map(str, generations2plot)))
 plt.savefig(default_directory + "/figures/pareto_front_over_generations.png")
+# plt.show()
+f3.show()
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+for i in generations2plot:
+    ax.scatter(-f[i - 1][:, 0], -f[i - 1][:, 1], -f[i - 1][:, 2])
+ax.set_xlabel('Total yield [€]')
+ax.set_ylabel('Biomass loss [tonnes]')
+ax.set_zlabel('Average distance to protected area [km]')
+plt.savefig(default_directory + "/figures/pareto_front_over_generations_3d.png")
 plt.show()
 
 # TODO: adjust Hypervolume; doesnt work yet
