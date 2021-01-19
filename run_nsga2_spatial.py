@@ -62,7 +62,7 @@ algorithm = NSGA2(
     eliminate_duplicates = False
 )
 
-termination = get_termination("n_gen", 500)
+termination = get_termination("n_gen", 5000)
 
 res = minimize(
     problem,
@@ -81,20 +81,43 @@ print("response F")
 print(res.F)
 
 
-f1, ax1 = plt.subplots(1)
-im1 = plt.scatter(-res.F[:, 0], -res.F[:, 1]) #, s=30, fc='none', ec='k')
-ax1.set_title('objective space / pareto front')
-ax1.set_xlabel('Total yield [tonnes]')
-ax1.set_ylabel('Above ground biomass [tonnes]')
+f1, (ax1a, ax1b, ax1c) = plt.subplots(1, 3, figsize=(15, 5))
+ax1a.scatter(-res.F[:, 0], -res.F[:, 1]) #, s=30, fc='none', ec='k')
+ax1a.set_title('objective space / pareto front')
+ax1a.set_xlabel('Total yield [tonnes]')
+ax1a.set_ylabel('Biomass loss [tonnes]')
+ax1b.scatter(-res.F[:, 1], -res.F[:, 2]) #, s=30, fc='none', ec='k')
+ax1b.set_title('objective space / pareto front')
+ax1b.set_xlabel('Biomass loss [tonnes]')
+ax1b.set_ylabel('Average distance to protected area [km]')
+ax1c.scatter(-res.F[:, 0], -res.F[:, 2]) #, s=30, fc='none', ec='k')
+ax1c.set_title('objective space / pareto front')
+ax1c.set_xlabel('Total yield [tonnes]')
+ax1c.set_ylabel('Average distance to protected area [km]')
+plt.savefig(default_directory + "/figures/objective_space.png")
 plt.show()
-#f1.savefig('objective_space.png')
 
-f6, ax6 = plt.subplots(1)
-im6 = plt.scatter(-res.F[:, 1], -res.F[:, 2]) #, s=30, fc='none', ec='k')
-ax6.set_title('objective space / pareto front')
-ax6.set_xlabel('Total biomass [tonnes]')
-ax6.set_ylabel('Distance ')
-plt.show()
+
+# f1, ax1a = plt.subplots(1)
+# im1 = plt.scatter(-res.F[:, 0], -res.F[:, 1]) #, s=30, fc='none', ec='k')
+# ax1a.set_title('objective space / pareto front')
+# ax1a.set_xlabel('Total yield [tonnes]')
+# ax1a.set_ylabel('Above ground biomass [tonnes]')
+# plt.show()
+#
+# f1, ax1a = plt.subplots(1)
+# im1 = plt.scatter(-res.F[:, 0], -res.F[:, 2]) #, s=30, fc='none', ec='k')
+# ax1a.set_title('objective space / pareto front')
+# ax1a.set_xlabel('Total yield [tonnes]')
+# ax1a.set_ylabel('Distance')
+# plt.show()
+#
+# f1, ax1a = plt.subplots(1)
+# im1 = plt.scatter(-res.F[:, 1], -res.F[:, 2]) #, s=30, fc='none', ec='k')
+# ax1a.set_title('objective space / pareto front')
+# ax1a.set_xlabel('biomass')
+# ax1a.set_ylabel('distance')
+# plt.show()
 
 # TODO Create design space (as it is different to tutorial through the vector data)
 
@@ -118,37 +141,51 @@ n_gen = np.array(range(1, len(f) + 1))
 # get maximum (extremes) of each generation for both objectives
 obj_1 = []
 obj_2 = []
+obj_3 = []
 for i in f:
     max_obj_1 = min(i[:, 0])
     max_obj_2 = min(i[:, 1])
+    max_obj_3 = min(i[:, 2])
 
     obj_1.append(max_obj_1)
     obj_2.append(max_obj_2)
+    obj_3.append(max_obj_3)
 
 # visualize the maxima against the generation number
-f3, (ax3a, ax3b) = plt.subplots(1, 2, figsize=(9, 5))
+f3, (ax3a, ax3b, ax3c) = plt.subplots(1, 3, figsize=(15, 5))
 ax3a.plot(n_gen, -np.array(obj_1))
 ax3a.set_xlabel("Generation")
 ax3a.set_ylabel("Maximum total yield [tonnes]")
 ax3b.plot(n_gen, -np.array(obj_2))
 ax3b.set_xlabel("Generation")
 ax3b.set_ylabel("Above ground biomass [tonnes]")
+ax3c.plot(n_gen, -np.array(obj_3))
+ax3c.set_xlabel("Generation")
+ax3c.set_ylabel("Average distance to protected areas [km]")
 plt.savefig(default_directory + "/figures/objectives_over_generations.png")
 plt.show()
 
 # add here the generations you want to see in the plot
-generations2plot = [10, 25, 50, 100, 200, 500]#, 750, 1000]#, 1500, 2000]
+generations2plot = [10, 50, 250, 500, 1000, 1500, 2000, 3500, 5000]
 
 # make the plot
-fig4, ax4 = plt.subplots(1)
+fig4, (ax4a, ax4b, ax4c) = plt.subplots(1, 3, figsize=(15, 5))
 # i - 1, because generation 1 has index 0
 for i in generations2plot:
-    plt.scatter(-f[i - 1][:, 0], -f[i - 1][:, 1])
-ax4.set_xlabel('Total yield [tonnes]')
-ax4.set_ylabel('Above ground biomass [tonnes]')
+    ax4a.scatter(-f[i - 1][:, 0], -f[i - 1][:, 1])
+    ax4b.scatter(-f[i - 1][:, 1], -f[i - 1][:, 2])
+    ax4c.scatter(-f[i - 1][:, 0], -f[i - 1][:, 2])
+ax4a.set_xlabel('Total yield [tonnes]')
+ax4a.set_ylabel('Biomass loss [tonnes]')
+ax4a.set_xlabel('Biomass loss [tonnes]')
+ax4a.set_ylabel('Average distance to protected area [km]')
+ax4a.set_xlabel('Total yield [tonnes]')
+ax4a.set_ylabel('Average distance to protected area [km]')
 plt.legend(list(map(str, generations2plot)))
 plt.savefig(default_directory + "/figures/pareto_front_over_generations.png")
 plt.show()
+
+# TODO: adjust Hypervolume; doesnt work yet
 
 from pymoo.performance_indicator.hv import Hypervolume
 
