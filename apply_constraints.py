@@ -6,7 +6,7 @@ def main(df, name):
     df_noUrban = df.loc[df['Urban_Area'] == 0]
     df_noUrban.to_file("./study_areas/" + name + "_noUrban.shp")
 
-    df_noUrban_noProt = df_noUrban.loc[df['distance'] >= 0]
+    df_noUrban_noProt = df_noUrban.loc[df['distance'] > 0]
     df_noUrban_noProt.to_file("./study_areas/" + name + "_noUrban_noProt.shp")
 
 
