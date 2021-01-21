@@ -90,6 +90,11 @@ print(res.F)
 # df.to_excel("../test/study2.xlsx")
 # np.savetxt('../test/study2_yield.csv', res.X[np.argmax(-res.F[:,0], axis=0)], delimiter=",", fmt='%s')
 
+# export best fits
+pd.DataFrame(res.X[np.argmax(-res.F[:,0], axis = 0)]).to_csv("./results/result_F1_yield.csv")
+pd.DataFrame(res.X[np.argmax(res.F[:,1], axis = 0)]).to_csv("./results/result_F2_biomass.csv")
+pd.DataFrame(res.X[np.argmax(-res.F[:,2], axis = 0)]).to_csv("./results/result_F3_dist.csv")
+
 
 f1, (ax1a, ax1b, ax1c) = plt.subplots(1, 3, figsize=(15, 5))
 ax1a.scatter(-res.F[:, 0], -res.F[:, 1]) #, s=30, fc='none', ec='k')
