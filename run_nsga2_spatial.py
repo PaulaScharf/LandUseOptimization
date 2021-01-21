@@ -38,7 +38,7 @@ class MyProblem(Problem):
 
     # define nr of variables etc.
     def __init__(self):
-        super().__init__(n_var = 288,
+        super().__init__(n_var = 273, # study2 = 288, study2_noUrban = 273
                         n_obj = 2,
                         n_constr = 0,
                         xl = 0.0,
@@ -92,7 +92,7 @@ print(res.F)
 
 # export best fits
 pd.DataFrame(res.X[np.argmax(-res.F[:,0], axis = 0)]).to_csv("./results/result_F1_yield.csv")
-pd.DataFrame(res.X[np.argmax(res.F[:,1], axis = 0)]).to_csv("./results/result_F2_biomass.csv")
+pd.DataFrame(res.X[np.argmax(-res.F[:,1], axis = 0)]).to_csv("./results/result_F2_biomass.csv")
 pd.DataFrame(res.X[np.argmax(-res.F[:,2], axis = 0)]).to_csv("./results/result_F3_dist.csv")
 
 

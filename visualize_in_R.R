@@ -1,43 +1,35 @@
 setwd("/home/petra/Studium/SPAT_OPT/LandUseOptimization")
 library(sf)
 library(dplyr)
+library(stars)
 
-##############################################################
-result <- read.csv("./results/result_F1_yield.csv", sep = ",")
-result_min <- select(result, c("ID", "mining"))
+# load from /results
+yield <- read.csv("./results/result_F1_yield.csv", sep = ",")
+biomass <- read.csv("./results/result_F2_biomass.csv", sep = ",")
+dist <- read.csv("./results/result_F3_dist.csv", sep = ",")
 
-input <- read_sf("study_areas/study2.shp")
+# make into sf data frames
+yield$geometry <- as.character(yield$geometry)
+yield$geometry <- as.list(yield$geometry)
+yield <- st_as_sf(yield)
+yield <- st_zm(yield, drop = TRUE)
 
-both <- merge(result_min, input, by.X = "ID", by.y = "ID")
-both <- st_as_sf(both)
-both <- st_zm(both, drop = TRUE)
+biomass$geometry <- as.character(biomass$geometry)
+biomass$geometry <- as.list(biomass$geometry)
+biomass <- st_as_sf(biomass)
+biomass <- st_zm(biomass, drop = TRUE)
 
-plot(both["mining"], pal = c("black", "white"))
-write_sf(both, "./results/yield.shp")
+dist$geometry <- as.character(dist$geometry)
+dist$geometry <- as.list(dist$geometry)
+dist <- st_as_sf(dist)
+dist <- st_zm(dist, drop = TRUE)
 
-##############################################################
-result <- read.csv("./results/result_F2_biomass.csv", sep = ",")
-result_min <- select(result, c("ID", "mining"))
+# plot
+plot(yield["mining"], pal = c("green", "grey"), main="yield")
+plot(biomass["mining"], pal = c("green", "grey"), main="biomass")
+plot(dist["mining"], pal = c("green", "grey"), main="distance")
 
-input <- read_sf("study_areas/study2.shp")
+write_sf(yield, "./results/best_yield.shp")
+write_sf(biomass, "./results/best_bio.shp")
+write_sf(dist, "./results/best_dist.shp")
 
-both2 <- merge(result_min, input, by.X = "ID", by.y = "ID")
-both2 <- st_as_sf(both2)
-both2 <- st_zm(both2, drop = TRUE)
-
-plot(both2["mining"], pal = c("black", "white"))
-write_sf(both2, "./results/biomass.shp")
-
-
-##############################################################
-result <- read.csv("./results/result_F3_dist.csv", sep = ",")
-result_min <- select(result, c("ID", "mining"))
-
-input <- read_sf("study_areas/study2.shp")
-
-both3 <- merge(result_min, input, by.X = "ID", by.y = "ID")
-both3 <- st_as_sf(both3)
-both3 <- st_zm(both3, drop = TRUE)
-
-plot(both3["mining"], pal = c("black", "white"))
-write_sf(both3, "./results/distances.shp")
