@@ -16,7 +16,7 @@ Crossover.do = sep._new_crossover_do
 import numpy as np
 # import pickle
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
+# import plotly.graph_objects as go
 import plotly.express as px
 
 # from matplotlib.colors import ListedColormap
@@ -183,7 +183,7 @@ fig.update_layout(
         'font_size': 30
     }
 )
-fig.write_html(default_directory + "/figures/objective_space_3d.html")
+fig.write_html(default_directory + "/figures/pareto_fronts_3d.html")
 fig.show()
 
 
