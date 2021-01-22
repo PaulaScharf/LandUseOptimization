@@ -62,7 +62,7 @@ algorithm = NSGA2(
     sampling = get_sampling("spatial", default_dir = default_directory),
     crossover = get_crossover("spatial_one_point_crossover", n_points = 5),
     mutation = get_mutation("spatial_n_point_mutation", prob = 0.05,
-                            point_mutation_probability = 0.15),
+                            point_mutation_probability = 0.08),
     eliminate_duplicates = False
 )
 
