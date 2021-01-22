@@ -1,6 +1,14 @@
 # LandUseOptimization
 Land Use Optimization towards mining with minimal ecological impact in Mato Grosso, Brazil
 
+# Results
+![image of pareto front](/figures/pareto_front_over_generations_3d.png)
+
+The pareto front, displayed by generations.
+![image of example best fit](/figures/best_yield_study2.png)
+
+An optimized solution for mining yield.
+
 # Objectives
 ## maximize mining
 
