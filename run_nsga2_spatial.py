@@ -16,8 +16,8 @@ Crossover.do = sep._new_crossover_do
 import numpy as np
 # import pickle
 import matplotlib.pyplot as plt
-import plotly
-import plotly.tools as tls
+import plotly.graph_objects as go
+import plotly.express as px
 
 # from matplotlib.colors import ListedColormap
 from pymoo.util.misc import stack
@@ -62,11 +62,11 @@ algorithm = NSGA2(
     sampling = get_sampling("spatial", default_dir = default_directory),
     crossover = get_crossover("spatial_one_point_crossover", n_points = 5),
     mutation = get_mutation("spatial_n_point_mutation", prob = 0.05,
-                            point_mutation_probability = 0.015),
+                            point_mutation_probability = 0.15),
     eliminate_duplicates = False
 )
 
-termination = get_termination("n_gen", 2000)
+termination = get_termination("n_gen", 1000)
 
 res = minimize(
     problem,
@@ -83,6 +83,7 @@ print("response X")
 print(res.X)
 print("response F")
 print(res.F)
+
 
 # print(len(res.X))
 # print(len(res.X[1]))
@@ -116,6 +117,19 @@ ax.set_zlabel('Average distance to protected area [km]')
 plt.savefig(default_directory + "/figures/objective_space_3d.png")
 plt.savefig(default_directory + "/figures/objective_space_3d.svg")
 # plt.show()
+
+fig = px.scatter_3d(res.F, -res.F[:, 0], -res.F[:, 1], -res.F[:, 2],
+                    labels={'x':'Total yield [€]', 'y':'Biomass loss [tonnes]', 'z':'Average distance to protected area [km]'})
+fig.update_layout(
+    title={
+        'text': "Pareto Front",
+        'x': 0.5,
+        'xanchor': 'center',
+        'font_size': 30
+    }
+)
+fig.write_html(default_directory + "/figures/objective_space_3d.html")
+fig.show()
 
 
 # TODO Create design space (as it is different to tutorial through the vector data)
@@ -163,7 +177,7 @@ plt.savefig(default_directory + "/figures/objectives_over_generations.png")
 # plt.show()
 
 # add here the generations you want to see in the plot
-generations2plot = [10, 25, 50, 250, 500, 1000, 1500, 2000]#, 3500, 5000]
+generations2plot = [25, 100, 250, 500, 1000]#, 1500, 2000]#, 3500, 5000]
 
 # make the plot
 fig4, (ax4a, ax4b, ax4c) = plt.subplots(1, 3, figsize=(15, 5))
@@ -181,7 +195,38 @@ ax4a.set_ylabel('Average distance to protected area [km]')
 plt.legend(list(map(str, generations2plot)))
 plt.savefig(default_directory + "/figures/pareto_front_over_generations.png")
 # plt.show()
-f3.show()
+# f3.show()
+
+
+# 3D plot of the pareto fronts over generations
+df = []
+for i in generations2plot:
+    gen = f[i-1]
+    for j in list(range(0, len(gen))):
+        x = np.append(gen[j], int(i))
+        x = x.tolist()
+        df.append(x)
+df = np.array(df)
+legend = df[:, 3].astype(int).astype(str)
+
+print(legend)
+
+fig = px.scatter_3d(df, -df[:, 0], -df[:, 1], -df[:, 2],
+                    labels={'x':'Total yield [€]', 'y':'Biomass loss [tonnes]', 'z':'Average distance to protected area [km]'},
+                    color = legend)
+fig.update_layout(
+    legend_title_text = "Generation",
+    legend_title_font_size = 20,
+    title={
+        'text': "Pareto Front over generations",
+        'x': 0.5,
+        'xanchor': 'center',
+        'font_size': 30
+    }
+)
+fig.write_html(default_directory + "/figures/objective_space_3d.html")
+fig.show()
+
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
@@ -212,4 +257,4 @@ ax5.plot(n_gen, hv, '-o', markersize=4, linewidth=2)
 ax5.set_xlabel("Generation")
 ax5.set_ylabel("Hypervolume")
 plt.savefig(default_directory + "/figures/hypervolume.png")
-plt.show()
+# plt.show()
