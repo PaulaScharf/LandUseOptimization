@@ -85,13 +85,8 @@ print("response F")
 print(res.F)
 
 
-# print(len(res.X))
-# print(len(res.X[1]))
-# df = pd.DataFrame(res.X[1]).set
-# df.to_excel("../test/study2.xlsx")
-# np.savetxt('../test/study2_yield.csv', res.X[np.argmax(-res.F[:,0], axis=0)], delimiter=",", fmt='%s')
 
-
+# Plot of 2D pareto fronts
 f1, (ax1a, ax1b, ax1c) = plt.subplots(1, 3, figsize=(15, 5))
 ax1a.scatter(-res.F[:, 0], -res.F[:, 1]) #, s=30, fc='none', ec='k')
 ax1a.set_title('objective space / pareto front')
@@ -108,16 +103,8 @@ ax1c.set_ylabel('Average distance to protected area [km]')
 plt.savefig(default_directory + "/figures/objective_space.png")
 # plt.show()
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(-res.F[:, 0], -res.F[:, 1], -res.F[:, 2])
-ax.set_xlabel('Total yield [€]')
-ax.set_ylabel('Biomass loss [tonnes]')
-ax.set_zlabel('Average distance to protected area [km]')
-plt.savefig(default_directory + "/figures/objective_space_3d.png")
-plt.savefig(default_directory + "/figures/objective_space_3d.svg")
-# plt.show()
 
+# Plot of 3D pareto front; saved as HTML
 fig = px.scatter_3d(res.F, -res.F[:, 0], -res.F[:, 1], -res.F[:, 2],
                     labels={'x':'Total yield [€]', 'y':'Biomass loss [tonnes]', 'z':'Average distance to protected area [km]'})
 fig.update_layout(
@@ -134,9 +121,8 @@ fig.show()
 
 # TODO Create design space (as it is different to tutorial through the vector data)
 
-
-#############################
-### Convergence tests
+# add here the generations you want to see in the plot
+generations2plot = [25, 100, 250, 500, 1000]#, 1500, 2000]#, 3500, 5000]
 
 # create an empty list to save objective values per generation
 f = []
@@ -148,6 +134,57 @@ for generation in res.history:
     f.append(this_f)
 
 n_gen = np.array(range(1, len(f) + 1))
+
+# make the plot
+fig4, (ax4a, ax4b, ax4c) = plt.subplots(1, 3, figsize=(15, 5))
+# i - 1, because generation 1 has index 0
+for i in generations2plot:
+    ax4a.scatter(-f[i - 1][:, 0], -f[i - 1][:, 1])
+    ax4b.scatter(-f[i - 1][:, 1], -f[i - 1][:, 2])
+    ax4c.scatter(-f[i - 1][:, 0], -f[i - 1][:, 2])
+ax4a.set_xlabel('Total yield [€]')
+ax4a.set_ylabel('Biomass loss [tonnes]')
+ax4a.set_xlabel('Biomass loss [tonnes]')
+ax4a.set_ylabel('Average distance to protected area [km]')
+ax4a.set_xlabel('Total yield [€]')
+ax4a.set_ylabel('Average distance to protected area [km]')
+plt.legend(list(map(str, generations2plot)))
+plt.savefig(default_directory + "/figures/pareto_front_over_generations.png")
+# plt.show()
+# f3.show()
+
+
+### 3D plot of the pareto fronts over generations
+df = []
+for i in generations2plot:
+    gen = f[i-1]
+    for j in list(range(0, len(gen))):
+        x = np.append(gen[j], int(i))
+        x = x.tolist()
+        df.append(x)
+df = np.array(df)
+legend = df[:, 3].astype(int).astype(str)
+
+fig = px.scatter_3d(df, -df[:, 0], -df[:, 1], -df[:, 2],
+                    labels={'x':'Total yield [€]', 'y':'Biomass loss [tonnes]', 'z':'Average distance to protected area [km]'},
+                    color = legend)
+fig.update_layout(
+    legend_title_text = "Generation",
+    legend_title_font_size = 20,
+    title={
+        'text': "Pareto Front over generations",
+        'x': 0.5,
+        'xanchor': 'center',
+        'font_size': 30
+    }
+)
+fig.write_html(default_directory + "/figures/objective_space_3d.html")
+fig.show()
+
+
+#############################
+### Convergence tests
+
 
 # get maximum (extremes) of each generation for both objectives
 obj_1 = []
@@ -174,69 +211,9 @@ ax3c.plot(n_gen, -np.array(obj_3))
 ax3c.set_xlabel("Generation")
 ax3c.set_ylabel("Average distance to protected areas [km]")
 plt.savefig(default_directory + "/figures/objectives_over_generations.png")
-# plt.show()
-
-# add here the generations you want to see in the plot
-generations2plot = [25, 100, 250, 500, 1000]#, 1500, 2000]#, 3500, 5000]
-
-# make the plot
-fig4, (ax4a, ax4b, ax4c) = plt.subplots(1, 3, figsize=(15, 5))
-# i - 1, because generation 1 has index 0
-for i in generations2plot:
-    ax4a.scatter(-f[i - 1][:, 0], -f[i - 1][:, 1])
-    ax4b.scatter(-f[i - 1][:, 1], -f[i - 1][:, 2])
-    ax4c.scatter(-f[i - 1][:, 0], -f[i - 1][:, 2])
-ax4a.set_xlabel('Total yield [€]')
-ax4a.set_ylabel('Biomass loss [tonnes]')
-ax4a.set_xlabel('Biomass loss [tonnes]')
-ax4a.set_ylabel('Average distance to protected area [km]')
-ax4a.set_xlabel('Total yield [€]')
-ax4a.set_ylabel('Average distance to protected area [km]')
-plt.legend(list(map(str, generations2plot)))
-plt.savefig(default_directory + "/figures/pareto_front_over_generations.png")
-# plt.show()
-# f3.show()
-
-
-# 3D plot of the pareto fronts over generations
-df = []
-for i in generations2plot:
-    gen = f[i-1]
-    for j in list(range(0, len(gen))):
-        x = np.append(gen[j], int(i))
-        x = x.tolist()
-        df.append(x)
-df = np.array(df)
-legend = df[:, 3].astype(int).astype(str)
-
-print(legend)
-
-fig = px.scatter_3d(df, -df[:, 0], -df[:, 1], -df[:, 2],
-                    labels={'x':'Total yield [€]', 'y':'Biomass loss [tonnes]', 'z':'Average distance to protected area [km]'},
-                    color = legend)
-fig.update_layout(
-    legend_title_text = "Generation",
-    legend_title_font_size = 20,
-    title={
-        'text': "Pareto Front over generations",
-        'x': 0.5,
-        'xanchor': 'center',
-        'font_size': 30
-    }
-)
-fig.write_html(default_directory + "/figures/objective_space_3d.html")
-fig.show()
-
-
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-for i in generations2plot:
-    ax.scatter(-f[i - 1][:, 0], -f[i - 1][:, 1], -f[i - 1][:, 2])
-ax.set_xlabel('Total yield [€]')
-ax.set_ylabel('Biomass loss [tonnes]')
-ax.set_zlabel('Average distance to protected area [km]')
-plt.savefig(default_directory + "/figures/pareto_front_over_generations_3d.png")
 plt.show()
+
+
 
 # TODO: adjust Hypervolume; doesnt work yet
 
