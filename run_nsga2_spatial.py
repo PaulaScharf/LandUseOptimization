@@ -78,11 +78,15 @@ res = minimize(
 )
 
 
-print(res)
+#print(res)
 print("response X")
 print(res.X)
 print("response F")
 print(res.F)
+print("length res.X, res.F")
+print(len(res.X))
+print(len(res.F))
+
 
 
 # export best fits
@@ -90,6 +94,20 @@ pd.DataFrame(res.X[np.argmax(-res.F[:,0], axis = 0)]).to_csv("./results/result_F
 pd.DataFrame(res.X[np.argmax(-res.F[:,1], axis = 0)]).to_csv("./results/result_F2_biomass.csv")
 pd.DataFrame(res.X[np.argmax(-res.F[:,2], axis = 0)]).to_csv("./results/result_F3_dist.csv")
 
+# csv are written ...
+solutions = []
+performances = []
+for solution, performance in zip(res.X, res.F):
+    mining = []
+    for polygon in solution:
+        mining.append(polygon[11])
+    solutions.append(mining)
+    performances.append([performance[0], performance[1], performance[2]])
+    
+# ... with true, false values of "mining" of single polygons
+pd.DataFrame(solutions).to_csv("./results/solutions.csv")
+# ... with performance per solution
+pd.DataFrame(performances).to_csv("./results/performances.csv")
 
 # Plot of 2D pareto fronts
 f1, (ax1a, ax1b, ax1c) = plt.subplots(1, 3, figsize=(15, 5))
