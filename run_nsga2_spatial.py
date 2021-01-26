@@ -57,7 +57,7 @@ problem = MyProblem()
 # run the algo
 algorithm = NSGA2(
     # TODO: automatically get pop_size from init_pop
-    pop_size = 288,
+    pop_size = 273,
     n_offsprings = 5,
     sampling = get_sampling("spatial", default_dir = default_directory),
     crossover = get_crossover("spatial_one_point_crossover", n_points = 5),
@@ -66,7 +66,7 @@ algorithm = NSGA2(
     eliminate_duplicates = False
 )
 
-termination = get_termination("n_gen", 2000)
+termination = get_termination("n_gen", 8000)
 
 res = minimize(
     problem,

@@ -30,37 +30,58 @@ ax1c.set_ylabel('Average distance to protected area [km]')
 plt.savefig(default_directory + "/figures/objective_space.png")
 # plt.show()
 
-# find maxima and add them for colouring
+# find maxima and middle and add them for colouring
 leg = []
 percent = 0.05
 max_0 = max(-resF[:, 0])
 min_0 = min(-resF[:, 0])
 quant_0 = max_0 - (max_0 - min_0) * percent
+best_0 = max_0 - (max_0 - min_0) * (0.4)
+top_0 = max_0 - (max_0 - min_0) * (0.5 - percent)
+down_0 = max_0 - (max_0 - min_0) * (0.5 + percent)
 print("min, max, quant")#
 print(max_0, min_0, quant_0)
 max_1 = max(-resF[:, 1])
 min_1 = min(-resF[:, 1])
 quant_1 = max_1 - (max_1 - min_1) * percent
+best_1 = max_1 - (max_1 - min_1) * (0.4)
+top_1 = max_1 - (max_1 - min_1) * (0.5 - percent)
+down_1 = max_1 - (max_1 - min_1) * (0.5 + percent)
 max_2 = max(-resF[:, 2])
 min_2 = min(-resF[:, 2])
 quant_2 = max_2 - (max_2 - min_2) * percent
+best_2 = max_2 - (max_2 - min_2) * (0.4)
+top_2 = max_2 - (max_2 - min_2) * (0.5 - percent)
+down_2 = max_2 - (max_2 - min_2) * (0.5 + percent)
+
+
 for i in list(range(0,len(resF))):
     if -resF[i, 0] > quant_0:
-        leg.append("0")
+        leg.append("Yield")
     elif -resF[i, 1] > quant_1:
-        leg.append("1")
+        leg.append("Biomass")
     elif -resF[i, 2] > quant_2:
-        leg.append("2")
+        leg.append("Distance")
+    # elif ((down_0 < -resF[i, 0] < top_0) or (down_1 < -resF[i, 1] < top_1) or (down_2 < -resF[i, 2] < top_2)):
+    #     leg.append("Middle")
+    elif -resF[i, 0] > best_0 and -resF[i, 1] > best_1 and -resF[i, 2] > best_2:
+        leg.append("All (60%+)")
     else:
-        leg.append("x")
-
+        leg.append("None")
 
 
 # Plot of 3D pareto front; saved as HTML
 fig = px.scatter_3d(resF, -resF[:, 0], -resF[:, 1], -resF[:, 2],
                     labels={'x':'Total yield [€]', 'y':'Biomass loss [tonnes]', 'z':'Average distance to protected area [km]'},
-                    color = leg)
+                    color = leg,
+                    # hover_data = ['ID']
+                    hover_data = {
+                        'ID': list(range(0,len(resF)))
+                    }
+                    )
 fig.update_layout(
+    legend_title_text = "Top objective",
+    legend_title_font_size = 20,
     title={
         'text': "Pareto Front",
         'x': 0.5,
@@ -74,7 +95,7 @@ fig.show()
 
 
 # add here the generations you want to see in the plot
-generations2plot = [25, 50, 100, 250, 500, 1000, 1500, 2000]#, 3500, 5000]
+generations2plot = [100, 1000, 2000, 5000, 8000]
 
 # create an empty list to save objective values per generation
 # f = []
