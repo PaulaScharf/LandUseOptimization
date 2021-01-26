@@ -21,13 +21,16 @@ import plotly.express as px
 
 # from matplotlib.colors import ListedColormap
 from pymoo.util.misc import stack
-from pymoo.model.problem import Problem 
+from pymoo.model.problem import Problem
 from calc_obj import calc_mine_yield, calc_mine_biomass, calc_protected_distance
 
-from pymoo.algorithms.nsga2 import NSGA2 
+from pymoo.algorithms.nsga2 import NSGA2
 from pymoo.factory import get_sampling, get_crossover, get_mutation
 from pymoo.factory import get_termination
 from pymoo.optimize import minimize
+
+from pymoo.interface import mutation
+from pymoo.factory import get_mutation
 
 default_directory = "./"
 
@@ -60,9 +63,11 @@ algorithm = NSGA2(
     pop_size = 288,
     n_offsprings = 5,
     sampling = get_sampling("spatial", default_dir = default_directory),
-    crossover = get_crossover("spatial_one_point_crossover", n_points = 5),
-    mutation = get_mutation("spatial_n_point_mutation", prob = 0.05,
-                            point_mutation_probability = 0.08),
+    #crossover = get_crossover("spatial_one_point_crossover", n_points = 5),
+    crossover = get_crossover("custom_ux", eta=30),
+    mutation = get_mutation("spatial_n_point_mutation", prob = 0.05,point_mutation_probability = 0.008),
+    #mutation = get_mutation("custom_real_pm", eta=30, prob=0.5),
+    #mutation = get_mutation("custom_perm_inv", prob=0.5),
     eliminate_duplicates = False
 )
 
@@ -218,6 +223,9 @@ ax3c.set_ylabel("Average distance to protected areas [km]")
 plt.savefig(default_directory + "/figures/objectives_over_generations.png")
 plt.show()
 
+# add here the generations you want to see in the plot
+generations2plot = [10, 25, 50, 250, 500, 1000, 1500, 2000]#, 3500, 5000]
+#generations2plot = [1, 2, 4, 8]#, 3500, 5000]
 
 
 # TODO: adjust Hypervolume; doesnt work yet

@@ -30,6 +30,8 @@ def _new_get_crossover_options():
         from pymoo.operators.crossover.edge_recombination_crossover import EdgeRecombinationCrossover
         from pymoo.operators.crossover.order_crossover import OrderCrossover
         from spatial_crossover import SpatialOnePointCrossover
+        from simulated_binary_crossover import CustomSimulatedBinaryCrossover
+        from uniform_crossover import CustomUniformCrossover
         CROSSOVER = [
             ("real_sbx", SimulatedBinaryCrossover, dict(prob=0.9, eta=30)),
             ("int_sbx", IntegerFromFloatCrossover, dict(clazz=SimulatedBinaryCrossover, prob=0.9, eta=30)),
@@ -42,7 +44,9 @@ def _new_get_crossover_options():
             ("(real|bin|int)_k_point", PointCrossover),
             ("perm_ox", OrderCrossover),
             ("perm_erx", EdgeRecombinationCrossover),
-            ("spatial_one_point_crossover", SpatialOnePointCrossover)
+            ("spatial_one_point_crossover", SpatialOnePointCrossover),
+            ("custom_sbx", CustomSimulatedBinaryCrossover),
+            ("custom_ux", CustomSimulatedBinaryCrossover)
         ]
         return CROSSOVER
 
@@ -53,6 +57,9 @@ def _new_get_mutation_options():
     from pymoo.operators.integer_from_float_operator import IntegerFromFloatMutation
     from pymoo.operators.mutation.inversion_mutation import InversionMutation
     from spatial_mutation import SpatialNPointMutation
+    from polynomial_mutation import CustomPolynomialMutation
+    from polynomial2_mutation import Custom2PolynomialMutation
+    from reverse_mutation import CustomInversionMutation
 
     MUTATION = [
         ("none", NoMutation, {}),
@@ -60,7 +67,10 @@ def _new_get_mutation_options():
         ("int_pm", IntegerFromFloatMutation, dict(clazz=PolynomialMutation, eta=20)),
         ("bin_bitflip", BinaryBitflipMutation),
         ("perm_inv", InversionMutation),
-        ("spatial_n_point_mutation", SpatialNPointMutation, dict(point_mutation_probability = 0.01))
+        ("spatial_n_point_mutation", SpatialNPointMutation, dict(point_mutation_probability = 0.01)),
+        ("custom_real_pm", CustomPolynomialMutation),
+        ("custom2_real_pm", Custom2PolynomialMutation),
+        ("custom_perm_inv", CustomInversionMutation)
     ]
 
     return MUTATION
