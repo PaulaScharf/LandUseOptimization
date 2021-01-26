@@ -32,7 +32,7 @@ plt.savefig(default_directory + "/figures/objective_space.png")
 
 # find maxima and middle and add them for colouring
 leg = []
-percent = 0.05
+percent = 0.025
 max_0 = max(-resF[:, 0])
 min_0 = min(-resF[:, 0])
 quant_0 = max_0 - (max_0 - min_0) * percent
@@ -184,7 +184,7 @@ ax3c.plot(n_gen, -np.array(obj_3))
 ax3c.set_xlabel("Generation")
 ax3c.set_ylabel("Average distance to protected areas [km]")
 plt.savefig(default_directory + "/figures/objectives_over_generations.png")
-# plt.show()
+plt.show()
 
 
 
