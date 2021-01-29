@@ -69,7 +69,8 @@ for i in list(range(0,len(resF))):
     else:
         leg.append("None")
 
-
+# see https://plotly.com/python/discrete-color/
+colors = px.colors.qualitative.D3
 # Plot of 3D pareto front; saved as HTML
 fig = px.scatter_3d(resF, -resF[:, 0], -resF[:, 1], -resF[:, 2],
                     labels={'x':'Total yield [€]', 'y':'Biomass loss [tonnes]', 'z':'Average distance to protected area [km]'},
@@ -77,7 +78,13 @@ fig = px.scatter_3d(resF, -resF[:, 0], -resF[:, 1], -resF[:, 2],
                     # hover_data = ['ID']
                     hover_data = {
                         'ID': list(range(0,len(resF)))
-                    }
+                    },
+                    color_discrete_map={
+                        "None": colors[0],
+                        "Biomass": colors[2],
+                        "Yield": colors[1],
+                        "Distance": colors[4],
+                        "All (60%+)": colors[3]},
                     )
 fig.update_layout(
     legend_title_text = "Top objective",
@@ -95,7 +102,7 @@ fig.show()
 
 
 # add here the generations you want to see in the plot
-generations2plot = [100, 1000, 2000, 5000, 8000]
+generations2plot = [100, 500]#1000, 2000, 5000, 8000]
 
 # create an empty list to save objective values per generation
 # f = []
