@@ -5,6 +5,7 @@ import random
 import fiona
 import matplotlib as plt
 
+print(gpd.show_versions())
 
 def calc_biomass(df,landuse):
 	landuse['biomass'] = 0;
@@ -83,7 +84,7 @@ def structuring(df,PAdf_trans,landUse):
 	new_df =  df[df['YIELD'].notnull()]
 
 	# Calculating Biomass
-	df.to_file("./input_data/input_data/tempStud1.shp")
+	df.to_file("./../input_data/input_data/tempStud1.shp")
 	print("[INFO] calculating biomass")
 	biomass = calc_biomass(new_df,landUse)
 
@@ -97,11 +98,11 @@ def structuring(df,PAdf_trans,landUse):
 def main(data):
 	# **Reading LandUse Areas**
 	print("[INFO] reading land use raster")
-	read_landUse = gpd.read_file("./input_data/input_data/LandUse/LandUse.shp")
+	read_landUse = gpd.read_file("./../input_data/LandUse/LandUse.shp")
 	landUse =  gpd.GeoDataFrame(read_landUse, geometry='geometry')
 	# **Reading Protected Areas**
 	print("[INFO] reading protected areas")
-	read_protectedAreas = gpd.read_file("./input_data/input_data/ProtectedAreas/ProtectedAreas.shp")
+	read_protectedAreas = gpd.read_file("./../input_data/ProtectedAreas/ProtectedAreas.shp")
 	# **Creating the GeoDataFrame**
 	PAdf =  gpd.GeoDataFrame(read_protectedAreas, geometry='geometry')
 
@@ -126,7 +127,7 @@ def main(data):
 
 # Initializing the  Functions
 print("[INFO] reading mining data")
-read_data = gpd.read_file("./input_data/input_data/MinningBlocks/MT_translated.shp")
+read_data = gpd.read_file("./../input_data/MinningBlocks/MT_translated.shp")
 
 geodf = gpd.GeoDataFrame(read_data)
 main(geodf)
