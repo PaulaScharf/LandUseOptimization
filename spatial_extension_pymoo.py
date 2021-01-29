@@ -32,6 +32,7 @@ def _new_get_crossover_options():
         from spatial_crossover import SpatialOnePointCrossover
         from simulated_binary_crossover import CustomSimulatedBinaryCrossover
         from uniform_crossover import CustomUniformCrossover
+        from order_crossover import CustomOrderCrossover
         CROSSOVER = [
             ("real_sbx", SimulatedBinaryCrossover, dict(prob=0.9, eta=30)),
             ("int_sbx", IntegerFromFloatCrossover, dict(clazz=SimulatedBinaryCrossover, prob=0.9, eta=30)),
@@ -46,7 +47,8 @@ def _new_get_crossover_options():
             ("perm_erx", EdgeRecombinationCrossover),
             ("spatial_one_point_crossover", SpatialOnePointCrossover),
             ("custom_sbx", CustomSimulatedBinaryCrossover),
-            ("custom_ux", CustomSimulatedBinaryCrossover)
+            ("custom_ux", CustomSimulatedBinaryCrossover),
+            ("custom_perm_ox", CustomOrderCrossover)
         ]
         return CROSSOVER
 

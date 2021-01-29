@@ -41,7 +41,7 @@ class MyProblem(Problem):
 
     # define nr of variables etc.
     def __init__(self):
-        super().__init__(n_var = 273, # study2 = 288, study2_noUrban = 273
+        super().__init__(n_var = 288, # study2 = 288, study2_noUrban = 273
                         n_obj = 2,
                         n_constr = 0,
                         xl = 0.0,
@@ -64,14 +64,16 @@ algorithm = NSGA2(
     n_offsprings = 5,
     sampling = get_sampling("spatial", default_dir = default_directory),
     #crossover = get_crossover("spatial_one_point_crossover", n_points = 5),
-    crossover = get_crossover("custom_ux", eta=30),
+    #crossover = get_crossover("custom_ux", eta=30),
+    #crossover = get_crossover("custom_perm_ox"),
+    crossover = get_crossover("custom_sbx", prob=0.5, eta=20),
     mutation = get_mutation("spatial_n_point_mutation", prob = 0.05,point_mutation_probability = 0.008),
     #mutation = get_mutation("custom_real_pm", eta=30, prob=0.5),
     #mutation = get_mutation("custom_perm_inv", prob=0.5),
     eliminate_duplicates = False
 )
 
-termination = get_termination("n_gen", 1000)
+termination = get_termination("n_gen", 10)
 
 res = minimize(
     problem,
@@ -132,7 +134,7 @@ fig.show()
 # TODO Create design space (as it is different to tutorial through the vector data)
 
 # add here the generations you want to see in the plot
-generations2plot = [25, 100, 250, 500, 1000]#, 1500, 2000]#, 3500, 5000]
+generations2plot = [10]#, 1500, 2000]#, 3500, 5000]
 
 # create an empty list to save objective values per generation
 f = []
@@ -224,8 +226,8 @@ plt.savefig(default_directory + "/figures/objectives_over_generations.png")
 plt.show()
 
 # add here the generations you want to see in the plot
-generations2plot = [10, 25, 50, 250, 500, 1000, 1500, 2000]#, 3500, 5000]
-#generations2plot = [1, 2, 4, 8]#, 3500, 5000]
+#generations2plot = [10, 25, 50, 250, 500, 1000, 1500, 2000, 5000,7500,10000]
+generations2plot = [250, 500, 1000, 2000]#, 3500, 5000]
 
 
 # TODO: adjust Hypervolume; doesnt work yet
