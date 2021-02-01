@@ -21,10 +21,10 @@ import plotly.express as px
 
 # from matplotlib.colors import ListedColormap
 from pymoo.util.misc import stack
-from pymoo.model.problem import Problem 
+from pymoo.model.problem import Problem
 from calc_obj import calc_mine_yield, calc_mine_biomass, calc_protected_distance
 
-from pymoo.algorithms.nsga2 import NSGA2 
+from pymoo.algorithms.nsga2 import NSGA2
 from pymoo.factory import get_sampling, get_crossover, get_mutation
 from pymoo.factory import get_termination
 from pymoo.optimize import minimize
@@ -61,8 +61,9 @@ algorithm = NSGA2(
     n_offsprings = 5,
     sampling = get_sampling("spatial", default_dir = default_directory),
     crossover = get_crossover("spatial_one_point_crossover", n_points = 5),
-    mutation = get_mutation("spatial_n_point_mutation", prob = 0.1,
-                            point_mutation_probability = 0.1),
+    mutation = get_mutation("spatial_n_point_mutation", prob = 0.05,
+                            point_mutation_probability = 0.08),
+    #mutation = get_mutation("custom_perm_inv", prob=0.5),
     eliminate_duplicates = False
 )
 

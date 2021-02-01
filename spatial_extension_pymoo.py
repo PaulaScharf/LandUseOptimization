@@ -53,6 +53,7 @@ def _new_get_mutation_options():
     from pymoo.operators.integer_from_float_operator import IntegerFromFloatMutation
     from pymoo.operators.mutation.inversion_mutation import InversionMutation
     from spatial_mutation import SpatialNPointMutation
+    from reverse_mutation import CustomInversionMutation
 
     MUTATION = [
         ("none", NoMutation, {}),
@@ -60,7 +61,8 @@ def _new_get_mutation_options():
         ("int_pm", IntegerFromFloatMutation, dict(clazz=PolynomialMutation, eta=20)),
         ("bin_bitflip", BinaryBitflipMutation),
         ("perm_inv", InversionMutation),
-        ("spatial_n_point_mutation", SpatialNPointMutation, dict(point_mutation_probability = 0.01))
+        ("spatial_n_point_mutation", SpatialNPointMutation, dict(point_mutation_probability = 0.01)),
+        ("custom_perm_inv", CustomInversionMutation)
     ]
 
     return MUTATION
