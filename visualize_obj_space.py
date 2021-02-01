@@ -7,10 +7,12 @@ import plotly.express as px
 
 default_directory = "./"
 
-resX = np.load("./results/resX.npy", allow_pickle=True)
-resF = np.load("./results/resF.npy", allow_pickle=True)
+study_area = "2"
+
+resX = np.load("./results/study" + study_area +"/resX.npy", allow_pickle=True)
+resF = np.load("./results/study" + study_area +"/resF.npy", allow_pickle=True)
 # resHist = np.load("./results/resHist.npy", allow_pickle=True)
-f = np.load("./results/f.npy", allow_pickle=True)
+f = np.load("./results/study" + study_area +"/f.npy", allow_pickle=True)
 
 
 # Plot of 2D pareto fronts
@@ -27,7 +29,7 @@ ax1c.scatter(-resF[:, 0], -resF[:, 2]) #, s=30, fc='none', ec='k')
 ax1c.set_title('objective space / pareto front')
 ax1c.set_xlabel('Total yield [€]')
 ax1c.set_ylabel('Average distance to protected area [km]')
-plt.savefig(default_directory + "/figures/objective_space.png")
+plt.savefig(default_directory + "/figures/study" + study_area +"/objective_space.png")
 # plt.show()
 
 # find maxima and middle and add them for colouring
@@ -36,7 +38,7 @@ percent = 0.025
 max_0 = max(-resF[:, 0])
 min_0 = min(-resF[:, 0])
 quant_0 = max_0 - (max_0 - min_0) * percent
-best_0 = max_0 - (max_0 - min_0) * (0.4)
+best_0 = max_0 - (max_0 - min_0) * (0.5)
 top_0 = max_0 - (max_0 - min_0) * (0.5 - percent)
 down_0 = max_0 - (max_0 - min_0) * (0.5 + percent)
 print("min, max, quant")#
@@ -44,13 +46,13 @@ print(max_0, min_0, quant_0)
 max_1 = max(-resF[:, 1])
 min_1 = min(-resF[:, 1])
 quant_1 = max_1 - (max_1 - min_1) * percent
-best_1 = max_1 - (max_1 - min_1) * (0.4)
+best_1 = max_1 - (max_1 - min_1) * (0.5)
 top_1 = max_1 - (max_1 - min_1) * (0.5 - percent)
 down_1 = max_1 - (max_1 - min_1) * (0.5 + percent)
 max_2 = max(-resF[:, 2])
 min_2 = min(-resF[:, 2])
 quant_2 = max_2 - (max_2 - min_2) * percent
-best_2 = max_2 - (max_2 - min_2) * (0.4)
+best_2 = max_2 - (max_2 - min_2) * (0.5)
 top_2 = max_2 - (max_2 - min_2) * (0.5 - percent)
 down_2 = max_2 - (max_2 - min_2) * (0.5 + percent)
 
@@ -65,7 +67,7 @@ for i in list(range(0,len(resF))):
     # elif ((down_0 < -resF[i, 0] < top_0) or (down_1 < -resF[i, 1] < top_1) or (down_2 < -resF[i, 2] < top_2)):
     #     leg.append("Middle")
     elif -resF[i, 0] > best_0 and -resF[i, 1] > best_1 and -resF[i, 2] > best_2:
-        leg.append("All (60%+)")
+        leg.append("All (50%+)")
     else:
         leg.append("None")
 
@@ -84,7 +86,7 @@ fig = px.scatter_3d(resF, -resF[:, 0], -resF[:, 1], -resF[:, 2],
                         "Biomass": colors[2],
                         "Yield": colors[1],
                         "Distance": colors[4],
-                        "All (60%+)": colors[3]},
+                        "All (50%+)": colors[3]},
                     )
 fig.update_layout(
     legend_title_text = "Top objective",
@@ -96,13 +98,13 @@ fig.update_layout(
         'font_size': 30
     }
 )
-fig.write_html(default_directory + "/figures/objective_space_3d.html")
+fig.write_html(default_directory + "/figures/study" + study_area +"/objective_space_3d.html")
 fig.show()
 
 
 
 # add here the generations you want to see in the plot
-generations2plot = [100, 500]#1000, 2000, 5000, 8000]
+generations2plot = [100, 2000, 5000, 10000, 25000, 50000]
 
 # create an empty list to save objective values per generation
 # f = []
@@ -124,12 +126,12 @@ for i in generations2plot:
     ax4c.scatter(-f[i - 1][:, 0], -f[i - 1][:, 2])
 ax4a.set_xlabel('Total yield [€]')
 ax4a.set_ylabel('Biomass loss [tonnes]')
-ax4a.set_xlabel('Biomass loss [tonnes]')
-ax4a.set_ylabel('Average distance to protected area [km]')
-ax4a.set_xlabel('Total yield [€]')
-ax4a.set_ylabel('Average distance to protected area [km]')
+ax4b.set_xlabel('Biomass loss [tonnes]')
+ax4b.set_ylabel('Average distance to protected area [km]')
+ax4c.set_xlabel('Total yield [€]')
+ax4c.set_ylabel('Average distance to protected area [km]')
 plt.legend(list(map(str, generations2plot)))
-plt.savefig(default_directory + "/figures/pareto_front_over_generations.png")
+plt.savefig(default_directory + "/figures/study" + study_area +"/pareto_front_over_generations.png")
 # plt.show()
 # f3.show()
 
@@ -158,7 +160,7 @@ fig.update_layout(
         'font_size': 30
     }
 )
-fig.write_html(default_directory + "/figures/pareto_fronts_3d.html")
+fig.write_html(default_directory + "/figures/study" + study_area +"/pareto_fronts_3d.html")
 fig.show()
 
 
@@ -190,7 +192,7 @@ ax3b.set_ylabel("Above ground biomass [tonnes]")
 ax3c.plot(n_gen, -np.array(obj_3))
 ax3c.set_xlabel("Generation")
 ax3c.set_ylabel("Average distance to protected areas [km]")
-plt.savefig(default_directory + "/figures/objectives_over_generations.png")
+plt.savefig(default_directory + "/figures/study" + study_area +"/objectives_over_generations.png")
 plt.show()
 
 

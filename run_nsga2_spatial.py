@@ -38,7 +38,7 @@ class MyProblem(Problem):
 
     # define nr of variables etc.
     def __init__(self):
-        super().__init__(n_var = 451, # study2 = 288, study2_noUrban = 273
+        super().__init__(n_var = 273, # study2 = 288, study2_noUrban = 273
                         n_obj = 2,
                         n_constr = 0,
                         xl = 0.0,
@@ -57,16 +57,16 @@ problem = MyProblem()
 # run the algo
 algorithm = NSGA2(
     # TODO: automatically get pop_size from init_pop
-    pop_size = 451,
+    pop_size = 273,
     n_offsprings = 5,
     sampling = get_sampling("spatial", default_dir = default_directory),
     crossover = get_crossover("spatial_one_point_crossover", n_points = 5),
-    mutation = get_mutation("spatial_n_point_mutation", prob = 0.05,
-                            point_mutation_probability = 0.08),
+    mutation = get_mutation("spatial_n_point_mutation", prob = 0.1,
+                            point_mutation_probability = 0.1),
     eliminate_duplicates = False
 )
 
-termination = get_termination("n_gen", 500)
+termination = get_termination("n_gen", 50000)
 
 res = minimize(
     problem,
