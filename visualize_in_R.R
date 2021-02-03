@@ -8,6 +8,8 @@ yield <- read.csv("./results/study1_inverseMut/result_F1_yield.csv", sep = ",")
 biomass <- read.csv("./results/study1_inverseMut/result_F2_biomass.csv", sep = ",")
 dist <- read.csv("./results/study1_inverseMut/result_F3_dist.csv", sep = ",")
 
+yield <- read.csv("./results/study2/sol52.csv", sep = ",")
+
 # make into sf data frames
 yield$geometry <- as.character(yield$geometry)
 yield$geometry <- as.list(yield$geometry)
@@ -29,7 +31,7 @@ plot(yield["mining"], pal = c("green", "grey"), main="yield")
 plot(biomass["mining"], pal = c("green", "grey"), main="biomass")
 plot(dist["mining"], pal = c("green", "grey"), main="distance")
 
-write_sf(yield, "./results/study1_inverseMut/best_yield.shp")
+write_sf(yield, "./results/study2/sol52.shp")
 write_sf(biomass, "./results/study1_inverseMut/best_bio.shp")
 write_sf(dist, "./results/study1_inverseMut/best_dist.shp")
 
