@@ -5,7 +5,7 @@ def _new_get_sampling_options():
     from pymoo.operators.integer_from_float_operator import IntegerFromFloatSampling
     from pymoo.operators.sampling.random_sampling import BinaryRandomSampling
     from pymoo.operators.sampling.random_permutation_sampling import PermutationRandomSampling
-    from spatial_sampling import SpatialSampling
+    from custom_sampling import CustomSampling
 
     SAMPLING = [
         ("real_random", FloatRandomSampling),
@@ -14,7 +14,7 @@ def _new_get_sampling_options():
         ("int_random", IntegerFromFloatSampling, {'clazz': FloatRandomSampling}),
         ("int_lhs", IntegerFromFloatSampling, {'clazz': LatinHypercubeSampling}),
         ("perm_random", PermutationRandomSampling, dict(default_dir = None)),
-        ("spatial", SpatialSampling)
+        ("custom", CustomSampling)
     ]
 
     return SAMPLING
@@ -29,7 +29,7 @@ def _new_get_crossover_options():
         from pymoo.operators.integer_from_float_operator import IntegerFromFloatCrossover
         from pymoo.operators.crossover.edge_recombination_crossover import EdgeRecombinationCrossover
         from pymoo.operators.crossover.order_crossover import OrderCrossover
-        from spatial_crossover import SpatialOnePointCrossover
+        from custom_crossover import CustomOnePointCrossover
         CROSSOVER = [
             ("real_sbx", SimulatedBinaryCrossover, dict(prob=0.9, eta=30)),
             ("int_sbx", IntegerFromFloatCrossover, dict(clazz=SimulatedBinaryCrossover, prob=0.9, eta=30)),
@@ -42,7 +42,7 @@ def _new_get_crossover_options():
             ("(real|bin|int)_k_point", PointCrossover),
             ("perm_ox", OrderCrossover),
             ("perm_erx", EdgeRecombinationCrossover),
-            ("spatial_one_point_crossover", SpatialOnePointCrossover)
+            ("custom_one_point_crossover", CustomOnePointCrossover)
         ]
         return CROSSOVER
 
@@ -52,7 +52,7 @@ def _new_get_mutation_options():
     from pymoo.operators.mutation.polynomial_mutation import PolynomialMutation
     from pymoo.operators.integer_from_float_operator import IntegerFromFloatMutation
     from pymoo.operators.mutation.inversion_mutation import InversionMutation
-    from spatial_mutation import SpatialNPointMutation
+    from custom_mutation import CustomNPointMutation
     from reverse_mutation import CustomInversionMutation
 
     MUTATION = [
@@ -61,7 +61,7 @@ def _new_get_mutation_options():
         ("int_pm", IntegerFromFloatMutation, dict(clazz=PolynomialMutation, eta=20)),
         ("bin_bitflip", BinaryBitflipMutation),
         ("perm_inv", InversionMutation),
-        ("spatial_n_point_mutation", SpatialNPointMutation, dict(point_mutation_probability = 0.01)),
+        ("custom_n_point_mutation", CustomNPointMutation, dict(point_mutation_probability = 0.01)),
         ("custom_perm_inv", CustomInversionMutation)
     ]
 

@@ -4,7 +4,7 @@ import random
 import fiona
 
 # make initial population, default_dir is unused
-def initialize_spatial(pop_size, default_directory):
+def initialize_custom(pop_size, default_directory):
     """A function that initializes a population of a given size."""
 
     all_tables = []
@@ -43,4 +43,4 @@ def initialize_spatial(pop_size, default_directory):
 
     return all_tables
 
-initialize_spatial(2,"path")
+initialize_custom(2,"path")

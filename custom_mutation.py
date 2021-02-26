@@ -12,7 +12,7 @@ def random_reset_mutation(genome_in, point_mutation_prob):
     return genome
 
 # class that performs the mutation
-class SpatialNPointMutation(Mutation):
+class CustomNPointMutation(Mutation):
 
     def __init__(self, prob=None,point_mutation_probability=0.01):
         super().__init__()
@@ -40,7 +40,7 @@ class SpatialNPointMutation(Mutation):
 #
 # import init_pop
 #
-# test_mates = init_pop.initialize_spatial(4,"path")
+# test_mates = init_pop.initialize_custom(4,"path")
 # mates = np.array([np.array(test_mates[0:2]), np.array(test_mates[2:4])])
 #
 # #print(len(mates))
@@ -48,7 +48,7 @@ class SpatialNPointMutation(Mutation):
 # #print(mates[0][1]['mining'])
 # #print(mates[1][1]['mining'])
 # #
-# mutClass = SpatialNPointMutation(0.8,0.6)
+# mutClass = CustomNPointMutation(0.8,0.6)
 # mutated = mutClass._do(problem= test_mates, X=mates)
 # #
 # # print(crossed)

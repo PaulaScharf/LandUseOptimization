@@ -2,11 +2,11 @@
 # 9.1
 from pymoo import factory
 from pymoo.model.crossover import Crossover
-import spatial_extension_pymoo as sep
+import custom_extension_pymoo as sep
 
 import pandas as pd
 
-# add spatial functions to pymoo lib
+# add custom functions to pymoo lib
 factory.get_sampling_options = sep._new_get_sampling_options
 factory.get_crossover_options = sep._new_get_crossover_options
 factory.get_mutation_options = sep._new_get_mutation_options
@@ -38,7 +38,7 @@ class MyProblem(Problem):
 
     # define nr of variables etc.
     def __init__(self):
-        super().__init__(n_var = 273, # study2 = 288, study2_noUrban = 273
+        super().__init__(n_var = 451, # study2 = 288, study2_noUrban = 273
                         n_obj = 2,
                         n_constr = 0,
                         xl = 0.0,
@@ -59,9 +59,9 @@ algorithm = NSGA2(
     # TODO: automatically get pop_size from init_pop
     pop_size = 273,
     n_offsprings = 5,
-    sampling = get_sampling("spatial", default_dir = default_directory),
-    crossover = get_crossover("spatial_one_point_crossover", n_points = 5),
-    mutation = get_mutation("spatial_n_point_mutation", prob = 0.05,
+    sampling = get_sampling("custom", default_dir = default_directory),
+    crossover = get_crossover("custom_one_point_crossover", n_points = 5),
+    mutation = get_mutation("custom_n_point_mutation", prob = 0.05,
                             point_mutation_probability = 0.08),
     #mutation = get_mutation("custom_perm_inv", prob=0.5),
     eliminate_duplicates = False

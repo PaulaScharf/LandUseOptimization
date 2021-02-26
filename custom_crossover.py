@@ -2,7 +2,7 @@ import numpy as np
 import random
 from pymoo.model.crossover import Crossover
 
-class SpatialOnePointCrossover(Crossover):
+class CustomOnePointCrossover(Crossover):
 
     def __init__(self, n_points, **kwargs):
         super().__init__(2, 2, 1.0)  # (n_parents,n_offsprings,probability)
@@ -67,7 +67,7 @@ class SpatialOnePointCrossover(Crossover):
 #import sys
 #sys.path.insert(0, 'input_data/test_sample')
 #from test_parents_crossover import *
-#test = SpatialOnePointCrossover(2)
+#test = CustomOnePointCrossover(2)
 #Sprint(test._do(1,population))
 
 
@@ -75,7 +75,7 @@ class SpatialOnePointCrossover(Crossover):
 #
 # import init_pop
 #
-# test_mates = init_pop.initialize_spatial(4,"path")
+# test_mates = init_pop.initialize_custom(4,"path")
 # mates = np.array([np.array(test_mates[0:2]), np.array(test_mates[2:4])])
 #
 # print(len(mates))
@@ -83,7 +83,7 @@ class SpatialOnePointCrossover(Crossover):
 # print(mates[0][1]['mining'])
 # print(mates[1][1]['mining'])
 #
-# crossClass = SpatialOnePointCrossover(2)
+# crossClass = CustomOnePointCrossover(2)
 # crossed = crossClass._do(problem= test_mates, X=mates)
 #
 # #print(crossed)
