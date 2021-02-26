@@ -9,6 +9,8 @@ The pareto front, displayed by generations.
 
 An optimized solution for mining yield.
 
+More visualizations of the results can be found in the folder "[figures](https://github.com/PaulaScharf/LandUseOptimization/tree/main/figures)".
+
 # Objectives
 ## maximize mining
 
