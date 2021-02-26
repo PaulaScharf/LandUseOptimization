@@ -1,0 +1,8 @@
+numpy==1.20.0
+geopandas
+fiona
+random
+matplotlib==3.2.2
+pandas==1.1.5
+pymoo==0.4.2.1
+plotly==4.14.3
